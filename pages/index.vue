@@ -1,3 +1,5 @@
+<!-- Main page, kus on loetelu raamatutest ja filtreeri -->
+
 <template>
   <div>
     <h1>Main page</h1>

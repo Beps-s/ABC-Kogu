@@ -1,3 +1,5 @@
+<!-- See on default layout, siin on header ja footer -->
+
 <template>
     <div>
         <header>
