@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Book from "../components/book.vue"
+import Book from "../components/bookCard.vue"
 
 export default {
     data() {
