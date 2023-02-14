@@ -1,34 +1,13 @@
-<!-- Main page, kus on loetelu raamatutest ja filtreeri -->
-
 <template>
     <div class="row row-cols-4">
-        <div v-for="book in books">
-            <Book :nimi="book.pealkiri" :pilt="book.pilt" />
+        <div v-for="b in books">
+            <HomePage-Book :book="b" />
         </div>
     </div>
 </template>
 
-<script>
-import Book from "../components/bookCard.vue"
-
-export default {
-    data() {
-        return {
-            books: []
-        }
-    },
-    components: {
-        Book
-    },
-    async fetch() {
-        console.log("fetching")
-        const response = await fetch("http://192.168.31.24:5000/books");
-        const finalResponse = await response.json();
-        finalResponse.forEach(element => {
-            this.books.push(element)
-        });
-    }
-}
+<script setup>
+const { data: books } = await useFetch('http://192.168.31.24:5000/books')
 </script>
 
 <style scoped>

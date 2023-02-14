@@ -2,7 +2,6 @@ import { getBooks, getBookByTitle } from "../models/bookModel.js";
  
 
 export const showBooks = (req, res) => {
-    console.log(bookid)
     getBooks((err, results) => {
         if (err){
             res.send(err);

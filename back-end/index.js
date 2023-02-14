@@ -17,5 +17,8 @@ app.use(cors());
 
 // use router
 app.use(Router);
+
+// use static files
+app.use(express.static('images'));
  
 app.listen(5000, () => console.log('Server running at http://localhost:5000'));
