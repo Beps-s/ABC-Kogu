@@ -11,7 +11,7 @@
                 </div>
                 <div class="col mx-auto px-4 input-group w-25">
                     <span class="input-group-text"><img src="../assets/images/MagnifyingGlass.png"></span>
-                    <input class="form-control" placeholder="Otsi raamatut" v-model="search">
+                    <input class="form-control" placeholder="Otsi raamatut">
                 </div>
                 <div class="menu">
                     <div class="menu-item"><img src="../assets/images/UserCircle.png">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-        </header>>
+        </header>
     </div>
     <slot />
 </template>

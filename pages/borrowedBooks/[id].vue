@@ -1,32 +1,35 @@
 <!-- See on page, kui sa vajutad main pagel raamatule ja saad detailsema vaate -->
 
 <template>
-    <img :src="'http://192.168.31.24:5000/' + book.Pilt">
-    <div>
-        <h1> {{ book.Pealkiri }}</h1>
-        <p> {{ book.Autor }}</p>
-        <p> {{ book.Kirjeldus }}</p>
+    <div v-for="book in book">
         <div>
-            <NuxtLink to="/readingPage"><button class="button">Loe</button></NuxtLink>
-            <button class="button">Tagasta</button>
-            <button class="button">Pikenda</button>
+            <img :src="'http://192.168.31.24:5000/' + book.Pilt">
+            <div>
+                <h1> {{ book.Pealkiri }} </h1>
+                <p> {{ book.Autor }} </p>
+                <p> {{ book.Kirjeldus }} </p>
+                <div>
+                    <NuxtLink to="/readingPage"><button class="button">Loe</button></NuxtLink>
+                    <button class="button">Tagasta</button>
+                    <button class="button">Pikenda</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-const { pealkiri } = useRoute().params
-const urp = 'http://192.168.31.24:5000/books/' + pealkiri
+const { id } = useRoute().params
+const urp = 'http://192.168.31.24:5000/books/' + id
 
-const { data: book } = await useFetch(urp, { key: pealkiri })
-console.log(book)
+const { data: book } = await useFetch(urp, { key: id })
 </script>
 
 <style scoped>
 .button {
     margin-left: 20%;
     border: none;
-    background: #FAAB51;
+    background: #FF9B42;
     border-radius: 15px;
     padding: 10px 20px;
     font-size: 25px;

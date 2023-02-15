@@ -2,7 +2,7 @@
 <template>
     <div class="col" style="padding-top: 12px; padding-bottom: 12px;">
         <div class="card home-card h-100">
-            <NuxtLink :to="`./${book.Pealkiri}`" class="card-link">
+            <NuxtLink :to="`/${book.Pealkiri}`" class="card-link">
                 <img :src="'http://192.168.31.24:5000/' + book.Pilt" class="card-img-top">
                 <div class="card-body d-flex justify-content-between align-items-top p-2">
                     <div class="flex justify-content-center">

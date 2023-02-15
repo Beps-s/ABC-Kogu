@@ -14,17 +14,14 @@
                 <span class="label">Raamatu nimi</span>
               </label>
             </div>
-            <div class="dropdown">
-              <button class="dropbtn">Raamatu keel</button>
-              <div class="dropdown-content">
-                <a href="#">LANGUAGE 1</a>
-                <a href="#">LANGUAGE 2</a>
-                <a href="#">LANGUAGE 3</a>
-              </div>
+            <div class="py-2">
+              <label for="raamatuKeel" class="inp">
+                <input type="text" id="raamatuKeel" placeholder="&nbsp;" required>
+                <span class="label">Raamatu keel</span>
+              </label>
             </div>
             <div class="py-2 label-in-textarea">
-              <textarea class="txtarea">
-              </textarea>
+              <textarea class="txtarea"></textarea>
                 <label class="action">>Raamatu kirjeldus</label>
             </div>
           </div>
@@ -94,8 +91,8 @@
 }
 
 .mainBtn:hover {
-  background-color: #FFD700;
-  border-color: #FFD700;
+  background-color: #FAAB51;
+  border-color: #FAAB51;
 }
 
 .txtarea {
@@ -167,12 +164,12 @@
 
 .inp input:focus {
   outline: none;
-  box-shadow: inset 0 -2px 0 #FFD700;
+  box-shadow: inset 0 -2px 0 #FF9B42;
 }
 
 .txtarea:focus {
   outline: none;
-  box-shadow: inset 0 -2px 0 #FFD700;
+  box-shadow: inset 0 -2px 0 #FF9B42;
 }
 
 .inp input:focus+.label {
@@ -204,58 +201,11 @@
   cursor: pointer;
 }
 
- /* Dropdown Button */
- .dropbtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 8px;
-  width: 166px;
-  height: 60px;
-  background: #FF9B42;
-  font-size: 1em;
-  border-radius: 10px;
-  cursor: pointer;
-  border-color: #FF9B42;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: #FF9B42;} 
 .input-file:hover+.input-file-trigger,
 .input-file:focus+.input-file-trigger,
 .input-file-trigger:hover,
 .input-file-trigger:focus {
-  background: #FFD700;
+  background: #FAAB51;
   color: #fff;
 }
 </style>
