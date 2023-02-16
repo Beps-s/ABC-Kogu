@@ -1,7 +1,7 @@
 <template>
   <!-- Login form -->
   <div class="form-popup" id="loginForm" style="border: solid #f1f1f1">
-    <div @click.stop>
+    <div>
       <div style="float: right; font-size: 30px" @click="$emit('close-modal')">X</div>
       <form action="/" class="form-container">
         <h1>Logi sisse</h1>
@@ -49,6 +49,8 @@ input[type=text] {
   margin: 10% 0 0 40%;
   padding: 15px 20px 20px 20px;
   border: 3px solid #f1f1f1;
+  z-index: 9;
+  background-color: #FFFFFF;
 }
 
 /* Add styles to the form container */

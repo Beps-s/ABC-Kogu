@@ -50,6 +50,8 @@ input[type=text] {
   margin: 10% 0 0 40%;
   padding: 15px 20px 20px 20px;
   border: 3px solid #f1f1f1;
+  z-index: 9;
+  background-color: #FFFFFF;
 }
 
 /* Add styles to the form container */

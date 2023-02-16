@@ -47,7 +47,7 @@ import registerModal from '~/components/registerModal.vue'
 import profileModal from '~/components/profileModal.vue'
 
 export default {
-  components: {loginModal, registerModal, profileModal},
+  components: {loginModal, registerModal, profileModal, },
   data() {
     return {
       showLoginModal: false,
