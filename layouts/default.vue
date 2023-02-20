@@ -20,8 +20,7 @@
           <div v-if="!loggedIn" class="menu-item">
            <a @click="showLoginModal = true"><img src="../assets/images/UserCircle.png">Logi sisse</a>
           </div>
-          <div class="menu-item"><img src="../assets/images/UserCircle.png">
-            <a>Profiil</a>
+          <div class="menu-item"><a><img src="../assets/images/UserCircle.png">Profiil</a>
           </div>
         </div>
       </div>
@@ -56,7 +55,7 @@ a {
 
 .header {
   width: 100%;
-  height: 50px;
+  height: 60px;
   background-color: #FF9B42;
   display: flex;
   justify-content: space-between;
@@ -64,7 +63,8 @@ a {
 }
 
 .logo {
-  margin-left: 50px;
+  justify-content: start;
+  margin-left: 100px;
 }
 
 h1 {
@@ -75,21 +75,15 @@ h1 {
   color: #FFFFFF;
 }
 
-input[type=text] {
-  background-color: white;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  border: none;
-}
-
 .menu {
-  margin-right: 50px;
+  margin-right: 100px;
   display: flex;
 }
 
 .menu-item {
   font-size: 15px;
   font-weight: bold;
+  margin-left: 20px;
 }
 
 </style>

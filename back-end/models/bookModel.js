@@ -23,3 +23,14 @@ export const getBookByTitle = (title, result) => {
         }
     });   
 }
+
+export const insertBook = (data, result) => {
+    db.query("INSERT INTO raamatud SET ?", [data], (err, results) => {      
+        if(err) {
+            console.log(err);
+            result(err, null);
+        } else {
+            result(null, results);
+        }
+    });   
+}

@@ -24,3 +24,15 @@ export const showBookByTitle = (req, res) => {
         }
     });
 }
+
+export const createBook = (req, res) => {
+    let data = req.body;
+    
+    insertBook(data, (err, results) => {
+        if (err){
+            res.send({error: 'putsis'});
+        }else{
+            res.json({success: true});
+        }
+    });
+}

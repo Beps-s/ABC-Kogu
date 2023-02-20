@@ -6,4 +6,9 @@ export default defineNuxtConfig({
       "process.env.DEBUG": false,
     },
   },
+  app: {
+    head: {
+      title: "ABC-Kogu",
+    },
+  },
 })
