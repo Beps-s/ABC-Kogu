@@ -14,51 +14,46 @@
           <input class="form-control" placeholder="Otsi raamatut">
         </div>
         <div class="menu">
-          <div v-if="!loggedIn" class="menu-item"><img src="../assets/images/UserCircle.png">
-            <div style="display: inline-block"
-                 @click="showRegisterModal = true; showLoginModal = false; showProfileModal = false;">Registeeri
-            </div>
+          <div v-if="!loggedIn" class="menu-item">
+            <a @click="showRegisterModal = true"><img src="../assets/images/UserCircle.png">Registreeri</a>
           </div>
-          <div v-if="!loggedIn" class="menu-item"><img src="../assets/images/UserCircle.png">
-            <div style="display: inline-block;"
-                 @click="showLoginModal = true; showRegisterModal = false; showProfileModal = false;">Logi sisse
-            </div>
+          <div v-if="!loggedIn" class="menu-item">
+           <a @click="showLoginModal = true"><img src="../assets/images/UserCircle.png">Logi sisse</a>
           </div>
           <div class="menu-item"><img src="../assets/images/UserCircle.png">
-            <div style="display: inline-block;"
-                 @click="showProfileModal = true; showLoginModal = false; showRegisterModal = false;">Profiil
-            </div>
+            <a>Profiil</a>
           </div>
         </div>
       </div>
     </header>
-    <loginModal v-show="showLoginModal" @close-modal="showLoginModal = false"
-                @show-registerModal="showRegisterModal = true"/>
-    <registerModal v-show="showRegisterModal" @close-modal="showRegisterModal = false"
-                   @show-loginModal="showLoginModal = true"/>
-    <profileModal v-show="showProfileModal" @close-modal="showProfileModal = false"/>
   </div>
   <slot/>
+<loginModal v-show="showLoginModal" @close-modal="showLoginModal = false" />
+<registerModal v-show="showRegisterModal" @close-modal="showRegisterModal = false" />
 </template>
 
 <script>
 import loginModal from '~/components/loginModal.vue'
 import registerModal from '~/components/registerModal.vue'
-import profileModal from '~/components/profileModal.vue'
 
 export default {
-  components: {loginModal, registerModal, profileModal, },
+  components: {loginModal, registerModal },
   data() {
     return {
       showLoginModal: false,
       showRegisterModal: false,
-      showProfileModal: false,
     }
   },
 }
 </script>
 
 <style scoped>
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .header {
   width: 100%;
   height: 50px;

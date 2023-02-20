@@ -1,22 +1,43 @@
 <template>
-  <!-- Register form -->
-  <div class="form-popup" id="registerForm">
-    <div style="float: right; font-size: 30px" @click="$emit('close-modal')">X</div>
-    <form action="/" class="form-container">
-      <h1>Registreeri</h1>
-
-      <input type="text" placeholder="Kasutajanimi" name="username" required>
-
-      <input type="text" placeholder="E-maili Aadress" name="email" required>
-
-      <input type="password" placeholder="Parool" name="password" required>
-
-      <input type="password" placeholder="Korda Parooli" name="password" required>
-
-      <button type="submit" class="btn">Registreeru</button>
-      <div>Kasutaja olemas? <a style="color:#FAAB51; " @click="$emit('close-modal'); $emit('show-loginModal');">Logi
-        sisse</a></div>
-    </form>
+  <div class="modal-overlays">
+    <div class="wrapper">
+      <div class="d-grid d-md-flex justify-content-md-end">
+        <button class="btn-close close" @click="$emit('close-modal')" aria-label="Close"></button>
+      </div>
+      <div class="title-text">
+        <div class="title register">Registreeri</div>
+      </div>
+      <div class="form-container">
+        <div class="form-inner">
+          <form action="#" @submit="register" class="login">
+            <div class="field">
+              <input type="text" v-model="eesnimiReg" placeholder="Eesnimi" id="register-eesnimi" required>
+            </div>
+            <div class="field">
+              <input type="text" v-model="perenimiReg" placeholder="Perenimi" id="register-perenimi" required>
+            </div>
+            <div class="field">
+              <input type="email" v-model="emailReg" placeholder="E-maili Aadress" id="register-email" required>
+            </div>
+            <div class="field">
+              <input type="password" v-model="paroolReg" placeholder="Parool" id="register-parool" required>
+            </div>
+            <div class="field">
+              <input type="password" v-model="paroolUuestiReg" placeholder="Parool uuesti" id="register-parool-kordus"
+                required>
+            </div>
+            <h3>{{ message }}</h3>
+            <div class="field btn">
+              <div class="btn-layer"></div>
+              <input type="submit" value="Loo konto" data-bs-dismiss="modal">
+            </div>
+            <div class="signup-link">
+              Kasutaja juba olemas? <a data-bs-toggle="modal" data-bs-target="#loginModal">Logi sisse</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -25,81 +46,159 @@ export default {}
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
-h1 {
-  font-size: 35px;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  font-weight: bold;
-  color: #000000;
+.modal-overlays {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #000000da;
+}
+
+.wrapper {
+  overflow: hidden;
+  margin-top: 10%;
+  height: 600px;
+  width: 500px;
   text-align: center;
-}
-
-input[type=text] {
   background-color: white;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  border: none;
-}
-
-/* LOGIN FORM  {box-sizing: border-box;} */
-
-/* The popup form - hidden by default */
-.form-popup {
-  position: absolute;
-  margin: 10% 0 0 40%;
-  padding: 15px 20px 20px 20px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-  background-color: #FFFFFF;
-}
-
-/* Add styles to the form container */
-.form-container {
-  max-width: 350px;
+  background: #fff;
   padding: 30px;
-  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper .title-text {
+  display: flex;
+  width: 200%;
+}
+
+.wrapper .title {
+  width: 50%;
+  font-size: 35px;
+  font-weight: 600;
   text-align: center;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Full-width input fields */
-.form-container input[type=text],
-.form-container input[type=password] {
+
+#signup:checked~label.login {
+  color: #000;
+}
+
+#login:checked~label.login {
+  cursor: default;
+  user-select: none;
+}
+
+.wrapper .form-container {
   width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  color: #C3C3C3;
-  border: solid 1px #C3C3C3;
-  font-size: 20px;
+  overflow: hidden;
 }
 
-/* When the inputs get focus, do something */
-.form-container input[type=text]:focus,
-.form-container input[type=password]:focus {
-  background-color: #ddd;
+.form-container .form-inner {
+  display: flex;
+  width: 200%;
+}
+
+.form-container .form-inner form {
+  width: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-inner form .field {
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-inner form .field input {
+  height: 100%;
+  width: 100%;
   outline: none;
+  padding-left: 15px;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  border-bottom-width: 2px;
+  font-size: 17px;
+  transition: all 0.3s ease;
 }
 
-/* Set a style for the submit/login button */
-.form-container .btn {
-  background-color: #FF9B42;
-  color: white;
-  padding: 7px 0 7px 0;
-  border: none;
-  cursor: pointer;
-  width: 70%;
+.form-inner form .field input:focus {
+  border-color: #FF9B42;
+  /* box-shadow: inset 0 0 3px #fb6aae; */
+}
+
+.form-inner form .field input::placeholder {
+  color: #999;
+  transition: all 0.3s ease;
+}
+
+form .field input:focus::placeholder {
+  color: #b3b3b3;
+}
+
+.form-inner form .signup-link {
+  text-align: center;
   margin-top: 30px;
-  margin-bottom: 10px;
-  opacity: 1;
-  font-size: 25px;
-  font-weight: bold;
 }
 
+.form-inner form .signup-link a {
+  color: #FF9B42;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-/* Add some hover effects to buttons */
-.form-container .btn:hover,
-.open-button:hover {
-  opacity: 0.8;
+.form-inner form .signup-link a:hover {
+  text-decoration: underline;
+}
+
+form .btn {
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+form .btn .btn-layer {
+  height: 100%;
+  width: 300%;
+  position: absolute;
+  left: -100%;
+  background: -webkit-linear-gradient(right,
+      #FF9B42,
+      #f1cd2b,
+      #FF9B42,
+      #f1cd2b);
+  border-radius: 5px;
+  transition: all 0.4s ease;
+}
+
+form .btn:hover .btn-layer {
+  left: 0;
+}
+
+form .btn input[type="submit"] {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  background: none;
+  border: none;
+  color: #fff;
+  padding-left: 0;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 </style>
