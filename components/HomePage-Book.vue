@@ -32,7 +32,7 @@ a {
 }
 
 .home-card {
-    background-color: #FF9B42 !important;
+    background-color: #f5f5f5 !important;
     border: none !important;
     border-radius: 20px !important;
 }
