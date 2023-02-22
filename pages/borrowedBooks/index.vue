@@ -14,5 +14,10 @@ const { data: books } = await useFetch('http://192.168.31.24:5000/books')
 </script>
 
 <style scoped>
-
+.p {
+  margin-top: 20px;
+  margin-left: 90px;
+  margin-right: 20%;
+  font-size: 35px;
+}
 </style>
