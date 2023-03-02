@@ -10,6 +10,7 @@
                         <div class="flex card-end">
                             <h5 id="book-author">{{ book.Autor }}</h5>
                         </div>
+                      <p id="details" class="text-start">Loe lähemalt</p>
                     </div>
                 </div>
             </NuxtLink>
@@ -39,5 +40,21 @@ a {
 
 .card-body {
     color: black;
+}
+
+#book-author {
+  font-size: 14px;
+  color: #6D6D6D;
+}
+
+#book-name {
+  font-size: 20px;
+  margin-top: -5px;
+  color: #000000;
+}
+
+#details {
+  display: flex;
+  justify-content: right;
 }
 </style>
