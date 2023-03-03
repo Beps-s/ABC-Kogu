@@ -2,13 +2,13 @@
 <template>
     <div class="col" style="padding-top: 20px; padding-bottom: 20px;">
         <div class="card home-card">
-            <NuxtLink :to="`/${book.Pealkiri}`" class="card-link">
-                <img :src="'http://192.168.31.24:5000/' + book.Pilt" class="card-img-top">
+            <NuxtLink :to="`/${ props.book.Raamatu_ID }`" class="card-link">
+                <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.book.Pilt" class="card-img-top">
                 <div class="card-body">
                     <div class="">
-                        <h3 id="book-name">{{ book.Pealkiri }}</h3>
+                        <h3 id="book-name">{{ props.book.Pealkiri }}</h3>
                         <div class="flex card-end">
-                            <h5 id="book-author">{{ book.Autor }}</h5>
+                            <h5 id="book-author">{{ props.book.Autor }}</h5>
                         </div>
                       <p id="details" class="text-start">Loe lähemalt</p>
                     </div>
@@ -19,7 +19,8 @@
 </template>
 
 <script setup>
-const { book } = defineProps(['book'])
+const props = defineProps(['book'])
+
 </script>
 
 <style scoped>

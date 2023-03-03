@@ -2,12 +2,12 @@
 <template>
     <div class="col" style="margin-top: 12px; margin-bottom: 12px;">
         <div id="item" class="card home-card h-100">
-            <NuxtLink :to="`/borrowedBooks/${book.Pealkiri}`" class="card-link">
-                <img :src="'http://192.168.31.24:5000/' + book.Pilt" id="book-image" class="card-img-top">
+            <NuxtLink :to="`/borrowedBooks/${props.book.Pealkiri}`" class="card-link">
+                <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.book.Pilt" id="book-image" class="card-img-top">
                 <div class="card-body d-flex justify-content-between align-items-top p-2">
                     <div class="flex justify-content-center">
-                        <h5 id="book-name" class="card-title">{{ book.Pealkiri }}</h5>
-                        <h5 id="book-author" class="card-title">{{ book.Autor }}</h5>
+                        <h5 id="book-name" class="card-title">{{ props.book.Pealkiri }}</h5>
+                        <h5 id="book-author" class="card-title">{{ props.book.Autor }}</h5>
                     </div>
                 </div>
               <p id="date-text" class="text-start">Tagastamise tähtaeg: <span id="date">tähtaeg</span></p>
@@ -17,7 +17,8 @@
 </template>
 
 <script setup>
-const { book } = defineProps(['book'])
+const props = defineProps(['book'])
+
 </script>
 
 <style scoped>

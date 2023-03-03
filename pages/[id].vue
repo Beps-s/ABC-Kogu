@@ -1,13 +1,11 @@
-<!-- See on page, kui sa vajutad main pagel raamatule ja saad detailsema vaate -->
-
 <template>
-  <div v-for="book in book">
+  <div>
     <div>
-      <img :src="'http://192.168.31.24:5000/' + book.Pilt">
+      <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt">
       <div>
-        <h1> {{ book.Pealkiri }} </h1>
-        <p> {{ book.Autor }} </p>
-        <p> {{ book.Kirjeldus }} </p>
+        <h1> {{ books[0].Pealkiri }} </h1>
+        <p> {{ books[0].Autor }} </p>
+        <p> {{ books[0].Kirjeldus }} </p>
         <div>
           <button class="button">Laenuta</button>
         </div>
@@ -17,10 +15,14 @@
 </template>
 
 <script setup>
+const client = useSupabaseClient()
 const { id } = useRoute().params
-const urp = 'http://192.168.31.24:5000/books/' + id
 
-const { data: book } = await useFetch(urp, { key: id })
+let { data: books, error } = await client
+  .from('RAAMATUD')
+  .select('*')
+  .eq('Raamatu_ID', id)
+
 </script>
 
 <style scoped>

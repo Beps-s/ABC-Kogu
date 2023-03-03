@@ -10,7 +10,12 @@
 </template>
 
 <script setup>
-const {data: books} = await useFetch('http://192.168.31.24:5000/books')
+const client = useSupabaseClient()
+
+let { data: books, error } = await client
+  .from('RAAMATUD')
+  .select('*')
+
 </script>
 
 <style scoped>
