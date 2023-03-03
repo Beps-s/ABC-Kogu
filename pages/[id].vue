@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div>
-      <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt">
-      <div>
+    <div class="container">
+      <img class="image" :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt">
+      <div class="details">
         <h1> {{ books[0].Pealkiri }} </h1>
         <p> {{ books[0].Autor }} </p>
         <p> {{ books[0].Kirjeldus }} </p>
@@ -26,6 +26,29 @@ let { data: books, error } = await client
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.details {
+  align-self: auto;
+  justify-content: right;
+  align-items: baseline;
+}
+
+.image {
+  align-self: auto;
+  justify-content: right;
+  align-items: baseline;
+  float: left;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
 .button {
   margin-left: 20%;
   border: none;
