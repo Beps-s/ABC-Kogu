@@ -50,11 +50,12 @@ let { data: books, error } = await client
 }
 
 .button {
+  margin-top: 35%;
   margin-left: 20%;
   border: none;
   background: #FF9B42;
   border-radius: 15px;
-  padding: 10px 20px;
+  padding: 10px 40px 10px 40px;
   font-size: 25px;
   font-weight: bold;
 }
