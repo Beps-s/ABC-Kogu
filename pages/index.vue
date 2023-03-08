@@ -1,12 +1,16 @@
 <template>
-  <div v-show="!showFilterModal">
-  <button @click="showFilterModal = true" style="cursor: pointer;" class="button">Ava filtrid</button>
-  </div>
-  <filterModal v-show="showFilterModal" @close-modal="showFilterModal = false" @filter="filter" />
-  <div class="container">
-    <div class="row row-cols-4">
-      <div v-for="b in books">
-        <HomePage-Book :book="b"/>
+  <div>
+    <div v-if="!showFilterModal">
+      <button @click="handleButtonClick" style="cursor: pointer;" class="button">Ava filtrid</button>
+    </div>
+    <div v-if="showFilterModal">
+      <filterModal :books="books" @close-modal="handleButtonClick" />
+    </div>
+    <div v-if="!showFilterModal" class="container">
+      <div class="row row-cols-4">
+        <div v-for="b in books" :key="b.id">
+          <HomePage-Book :book="b"/>
+        </div>
       </div>
     </div>
   </div>
@@ -15,29 +19,15 @@
 <script setup>
 const client = useSupabaseClient()
 
-let { data: books, error } = await client
-  .from('RAAMATUD')
-  .select('*')
-  
-console.log(books._value)
-</script>
-<script>
-import filterModal from '~/components/filterModal.vue'
+let {data: books, error} = await client
+    .from('RAAMATUD')
+    .select('*')
 
-export default {
-  components: {filterModal },
-  data() {
-    return {
-      showFilterModal: true,
-    }
-  },
-  methods: {
-    filter(tag) {
-      console.log(tag)
-    }
-  }
+const showFilterModal = ref(false)
+
+const handleButtonClick = () => {
+  showFilterModal.value = !showFilterModal.value;
 }
-
 </script>
 
 <style scoped>

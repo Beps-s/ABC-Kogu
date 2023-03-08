@@ -1,38 +1,24 @@
-<!-- Siit tuleb filter component, ehk see, kus on on filtrid main pagel näiteks -->
 <template>
-  <div class="filters">
-    <div id="closeBtn" @click="$emit('close-modal')">X</div>
-    <div>
-      <div class="category"><h5>Kategooria</h5>
-        <input type="checkbox" id="historyCheck" @click="filterFunction('history'); $emit('filter', 'Ajalugu')">
-        <label id="history">Ajalugu</label><br>
-        <input type="checkbox" id="fictionCheck" @click="filterFunction('fiction'); $emit('filter', 'Ilukirjandus')">
-        <label id="fiction">Ilukirjandus</label><br>
-        <input type="checkbox" id="cookingCheck" @click="filterFunction('cooking'); $emit('filter', 'Kokandus')">
-        <label id="cooking">Kokandus</label><br>
-        <input type="checkbox" id="childLiteratureCheck" @click="filterFunction('childLiterature'); $emit('filter', 'Lastekirjandus')">
-        <label id="childLiterature">Lastekirjandus</label><br>
-        <input type="checkbox" id="youngLiteratureCheck" @click="filterFunction('youngLiterature'); $emit('filter', 'Noortekirjandus')">
-        <label id="youngLiterature">Noortekirjandus</label><br>
-        <input type="checkbox" id="healthCheck" @click="filterFunction('health'); $emit('filter', 'Tervis')">
-        <label id="health">Tervis</label>
-      </div>
-      <div class="language"><h5>Keel</h5>
-        <input type="checkbox" id="estonianCheck" @click="filterFunction('estonian'); $emit('filter', 'Eesti keel')">
-        <label id="estonian">Eesti</label><br>
-        <input type="checkbox" id="englishCheck" @click="filterFunction('english'); $emit('filter', 'Inglise keel')">
-        <label id="english">Inglise</label><br>
-        <input type="checkbox" id="russianCheck" @click="filterFunction('russian'); $emit('filter', 'Vene keel')">
-        <label id="russian">Vene</label><br>
-        <input type="checkbox" id="swedishCheck" @click="filterFunction('swedish'); $emit('filter', 'Rootsi keel')">
-        <label id="swedish">Rootsi</label><br>
-        <input type="checkbox" id="finnishCheck" @click="filterFunction('finnish'); $emit('filter', 'Soome keel')">
-        <label id="finnish">Soome</label><br>
-        <input type="checkbox" id="germanCheck" @click="filterFunction('german'); $emit('filter', 'Saksa keel')">
-        <label id="german">Saksa</label>
+  <div>
+    <div class="filters">
+      <button @click="$emit('close-modal')" id="closeBtn">X</button>
+      <h3>Filtrid:</h3><h5>Kategooria</h5>
+      <div class="category" v-for="filter in categoryFilters" :key="filter">
+        <input type="checkbox" :id="filter" :value="filter" v-model="selectedCategoryFilters" @change="toggleCategoryFilter(filter)">
+        <label :for="filter">{{ filter }}</label>
+      </div><h5>Keel</h5>
+      <div class="language" v-for="filter in languageFilters" :key="filter">
+        <input type="checkbox" :id="filter" :value="filter" v-model="selectedLanguageFilters" @change="toggleLanguageFilter(filter)">
+        <label :for="filter">{{ filter }}</label>
       </div>
     </div>
-
+    <div class="container">
+      <div class="row row-cols-4">
+        <div v-for="b in filteredBooks" :key="b.id">
+          <HomePage-Book :book="b"/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,23 +26,57 @@
 export default {
   name: "Filters",
   props: {
-    filter: Boolean,
+    books: {
+      type: Array,
+      required: true
+    }
+  },
+  data() {
+    return {
+      filter: "",
+      categoryFilters: ["Ajalugu", "Ilukirjandus", "Kokandus", "Lastekirjandus", "Noortekirjandus", "Tervis"],
+      languageFilters: ["Eesti keel", "Inglise keel", "Vene keel", "Rootsi keel", "Soome keel", "Saksa keel"],
+      selectedCategoryFilters: [],
+      selectedLanguageFilters: [],
+    };
   },
   methods: {
-    filterFunction: function (filter) {
-      var checkBox = document.getElementById(filter + "Check");
-      var text = document.getElementById(filter);
-      if (checkBox.checked == true) {
-        text.style.fontWeight = "bold";
+    toggleCategoryFilter(filter) {
+      if (!this.selectedCategoryFilters.includes(filter)) {
+        this.selectedCategoryFilters = this.selectedCategoryFilters.filter((f) => f !== filter)
       } else {
-        text.style.fontWeight = "normal";
+        this.selectedCategoryFilters = this.selectedCategoryFilters.filter((f) => f !== filter)
+        this.selectedCategoryFilters.push(filter)
+      }
+    },
+    toggleLanguageFilter(filter) {
+      if (!this.selectedLanguageFilters.includes(filter)) {
+        this.selectedLanguageFilters = this.selectedLanguageFilters.filter((f) => f !== filter)
+      } else {
+        this.selectedLanguageFilters = this.selectedLanguageFilters.filter((f) => f !== filter)
+        this.selectedLanguageFilters.push(filter)
+      }
+    },
+  },
+  computed: {
+    filteredBooks() {
+      if (this.selectedLanguageFilters.length === 0 && this.selectedCategoryFilters.length === 0 ) {
+        return this.books
+      } else {
+        return this.books.filter((b) => {
+          // Return true if the book's category or language matches any of the selected filters
+          if (this.selectedCategoryFilters.length === 0) {
+            return this.selectedLanguageFilters.includes(b.Keel)
+          } else if (this.selectedLanguageFilters.length === 0) {
+            return this.selectedCategoryFilters.includes(b.Kategooria)
+          } else {
+          return this.selectedCategoryFilters.includes(b.Kategooria) && this.selectedLanguageFilters.includes(b.Keel)
+          }
+        })
       }
     }
   }
-}
-
-
-
+};
 </script>
 
 <style scoped>
@@ -66,23 +86,19 @@ export default {
   width: 20%;
   height: 600px;
 }
-
 .category {
   margin-left: 10px;
   margin-top: 10px;
 }
-
 .language {
   margin-left: 10px;
   margin-top: 10px;
 }
-
 #closeBtn {
   float: right;
   margin-right: 10px;
   margin-top: 10px;
   font-size: 20px;
   cursor: pointer;
-  padding-top: 10px;
 }
 </style>
