@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p> {{ book.Sisu }}</p>
+        <p> Sisu </p>
     </div>
 </template>
 

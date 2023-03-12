@@ -9,22 +9,21 @@
       </div>
       <div class="form-container">
         <div class="form-inner">
-          <form action="#" @submit="register" class="login">
+          <form @submit.prevent="register" class="login" autocomplete="off">
             <div class="field">
-              <input type="text" v-model="eesnimiReg" placeholder="Eesnimi" id="register-eesnimi" required>
+              <input type="text" v-model="eesnimiReg" placeholder="Eesnimi" autocomplete="off" required>
             </div>
             <div class="field">
-              <input type="text" v-model="perenimiReg" placeholder="Perenimi" id="register-perenimi" required>
+              <input type="text" v-model="perenimiReg" placeholder="Perenimi" autocomplete="off" required>
             </div>
             <div class="field">
-              <input type="email" v-model="emailReg" placeholder="E-maili Aadress" id="register-email" required>
+              <input type="email" v-model="emailReg" placeholder="E-maili Aadress" autocomplete="off" required>
             </div>
             <div class="field">
-              <input type="password" v-model="paroolReg" placeholder="Parool" id="register-parool" required>
+              <input type="password" v-model="paroolReg" placeholder="Parool" required>
             </div>
             <div class="field">
-              <input type="password" v-model="paroolUuestiReg" placeholder="Parool uuesti" id="register-parool-kordus"
-                required>
+              <input type="password" v-model="paroolUuestiReg" placeholder="Parool uuesti" required>
             </div>
             <h3>{{ message }}</h3>
             <div class="field btn">
@@ -32,7 +31,7 @@
               <input type="submit" value="Loo konto" data-bs-dismiss="modal">
             </div>
             <div class="signup-link">
-              Kasutaja juba olemas? <a data-bs-toggle="modal" data-bs-target="#loginModal">Logi sisse</a>
+              Kasutaja juba olemas? <a>Logi sisse</a>
             </div>
           </form>
         </div>
@@ -41,8 +40,33 @@
   </div>
 </template>
 
-<script>
-export default {}
+<script setup>
+const client = useSupabaseAuthClient()
+const { auth } = useSupabaseAuthClient()
+
+const eesnimiReg = ref('')
+const perenimiReg = ref('')
+const emailReg = ref('')
+const paroolReg = ref('')
+const paroolUuestiReg = ref('')
+const message = ref('')
+
+const register = async () => {
+  if (paroolReg.value !== paroolUuestiReg.value) {
+    message.value = 'Paroolid ei kattu'
+  }
+  await client.auth.signUp({
+    email: emailReg.value,
+    password: paroolReg.value,
+    options: {
+      data: {
+        eesnimi: eesnimiReg.value,
+        perenimi: perenimiReg.value,
+      },
+    },
+  })
+  return
+}
 </script>
 
 <style scoped>
@@ -51,7 +75,14 @@ export default {}
   font-family: "Poppins", sans-serif;
 }
 
+h3 {
+  color: red;
+  padding-top: 20px;
+  font-weight: bold;
+}
+
 .modal-overlays {
+  z-index: 999;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -65,7 +96,7 @@ export default {}
 .wrapper {
   overflow: hidden;
   margin-top: 10%;
-  height: 600px;
+  height: 640px;
   width: 500px;
   text-align: center;
   background-color: white;
@@ -178,7 +209,6 @@ form .btn .btn-layer {
       #f1cd2b,
       #FF9B42,
       #f1cd2b);
-  border-radius: 5px;
   transition: all 0.4s ease;
 }
 
@@ -195,10 +225,8 @@ form .btn input[type="submit"] {
   border: none;
   color: #fff;
   padding-left: 0;
-  border-radius: 5px;
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
 }
-
 </style>

@@ -1,44 +1,63 @@
 <template>
-  <div v-show="!showFilterModal">
-  <button @click="showFilterModal = true" style="cursor: pointer;" class="button">Ava filtrid</button>
-  </div>
-  <filterModal v-show="showFilterModal" @close-modal="showFilterModal = false" @filter="filter" />
   <div class="container">
-    <div class="row row-cols-4">
-      <div v-for="b in books">
-        <HomePage-Book :book="b"/>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            <h4>Filtrid</h4>
+          </div>
+          <div class="card-body">
+            <filterModal />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="row">
+          <div v-for="books in filteredBook" :key="books.Raamatu_ID" class="col-md-3 mb-4">
+            <HomePage-Book :books="books" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+const props = defineProps({
+  searchValue: String
+})
+
 const client = useSupabaseClient()
+const books = ref([])
 
-let { data: books, error } = await client
-  .from('RAAMATUD')
-  .select('*')
-  
-console.log(books._value)
-</script>
-<script>
-import filterModal from '~/components/filterModal.vue'
-
-export default {
-  components: {filterModal },
-  data() {
-    return {
-      showFilterModal: true,
-    }
-  },
-  methods: {
-    filter(tag) {
-      console.log(tag)
-    }
+async function getBooks() {
+  const { data, error } = await client.from('RAAMATUD').select('*')
+  if (error) {
+    console.error(error)
+    return
   }
+  books.value = data
 }
 
+onMounted(getBooks)
+
+const filteredBook = ref([])
+
+function filterBook() {
+  if (!props.searchValue) {
+    filteredBook.value = books.value
+    return
+  }
+  filteredBook.value = books.value.filter((item) =>
+    item.Pealkiri.toLowerCase().includes(props.searchValue.toLowerCase()) ||
+    item.Autor.toLowerCase().includes(props.searchValue.toLowerCase())
+  )
+}
+
+watchEffect(() => {
+  filterBook()
+})
+
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
