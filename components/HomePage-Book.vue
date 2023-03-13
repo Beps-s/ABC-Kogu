@@ -1,61 +1,54 @@
-<!-- Siia tuleb Book component, ehk see, kus on raamatu pilt, nimi ja autor main pagel näiteks -->
 <template>
-    <div class="col" style="padding-top: 20px; padding-bottom: 20px;">
-        <div class="card home-card">
-            <NuxtLink :to="`/${ props.book.Raamatu_ID }`" class="card-link">
-                <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.book.Pilt" class="card-img-top">
-                <div class="card-body">
-                    <div class="">
-                        <h3 id="book-name">{{ props.book.Pealkiri }}</h3>
-                        <div class="flex card-end">
-                            <h5 id="book-author">{{ props.book.Autor }}</h5>
-                        </div>
-                      <p id="details" class="text-start">Loe lähemalt</p>
-                    </div>
-                </div>
-            </NuxtLink>
-        </div>
+    <div class="card">
+        <NuxtLink :to="`/${props.books.Raamatu_ID}`">
+            <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.books.Pilt"
+                class="card-img-top" alt="Book cover">
+            <div class="card-body">
+                <h5 class="card-title">{{ props.books.Pealkiri }}</h5>
+                <p class="card-text">{{ props.books.Autor }}</p>
+                <a class="card-link">Tutvu lähemalt</a>
+            </div>
+        </NuxtLink>
     </div>
 </template>
+  
 
 <script setup>
-const props = defineProps(['book'])
+const props = defineProps(['books'])
 
 </script>
 
 <style scoped>
 a {
     text-decoration: none;
+    color: #000;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #dadada;
+    border: none !important;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
 
 .card-img-top {
-    height: 400px;
+    max-height: 300px;
     object-fit: cover;
 }
 
-.home-card {
-    background-color: #f5f5f5 !important;
-    border: none !important;
-    border-radius: 20px !important;
+.card-link {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.5rem;
+    text-align: end;
 }
 
-.card-body {
-    color: black;
-}
-
-#book-author {
-  font-size: 14px;
-  color: #6D6D6D;
-}
-
-#book-name {
-  font-size: 20px;
-  margin-top: -5px;
-  color: #000000;
-}
-
-#details {
-  display: flex;
-  justify-content: right;
+.card:hover {
+    transform: scale(1.02);
 }
 </style>

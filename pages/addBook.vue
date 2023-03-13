@@ -1,67 +1,120 @@
 
 <template>
   <div class="d-flex justify-content-center mt-3">
-    <div class="card addhotel-card border-2" style="">
+    <div class="card addbook-card border-2" style="">
       <div class="text-center pt-4">
         <h1><strong>Lisa oma raamat</strong></h1>
       </div>
       <div class="card-body">
-        <form id="addForm" class="row g-4">
+        <form id="addForm" @submit="addBook" class="row g-4">
           <div class="col-md-6">
             <div class="py-2">
               <label for="raamatuNimi" class="inp">
-                <input type="text" id="raamatuNimi" placeholder="&nbsp;" required>
+                <input type="text" v-model="raamatuNimi" id="raamatuNimi" placeholder="&nbsp;" required>
                 <span class="label">Raamatu nimi</span>
               </label>
             </div>
             <div class="py-2">
               <label for="raamatuKeel" class="inp">
-                <input type="text" id="raamatuKeel" placeholder="&nbsp;" required>
+                <select class="form-control" id="raamatuKeel" v-model="raamatuKeel" required>
+                  <option v-for="language in languages" :key="language">{{ language }}</option>
+                </select>
                 <span class="label">Raamatu keel</span>
               </label>
             </div>
-            <div class="py-2 label-in-textarea">
-              <textarea class="txtarea"></textarea>
-                <label class="action">>Raamatu kirjeldus</label>
+            <div class="py-2">
+              <label for="textArea" class="inp">
+                <textarea id="textArea" v-model="raamatuKirjeldus" class="txtarea" placeholder="&nbsp;" required></textarea>
+                <span class="label">Raamatu Kirjeldus</span>
+              </label>
             </div>
           </div>
           <div class="col-md-6">
             <div class="py-2">
               <label for="raamatuAutor" class="inp">
-                <input name="aadressHotell" id="raamatuAutor" autocomplete="off" placeholder="&nbsp;" required>
+                <input name="aadressHotell" v-model="raamatuAutor" id="raamatuAutor" autocomplete="off"
+                  placeholder="&nbsp;" required>
                 <span class="label">Raamatu autor</span>
               </label>
             </div>
             <div class="py-2">
               <label for="raamatuKategooria" class="inp">
-                <input type="text" id="raamatuKategooria" placeholder="&nbsp;" required>
+                <select class="form-control" id="raamatuKategooria" v-model="raamatuKategooria" required>
+                  <option v-for="category in categories" :key="category">{{ category }}</option>
+                </select>
                 <span class="label">Raamatu kategooria</span>
               </label>
             </div>
             <div class="pt-2">
-              <form id="piltForm" action="http://192.168.31.24:5000/upload" method="POST" enctype="multipart/form-data">
-                <input type="file" name="image" accept="image/png, image/jpeg" class="input-file" id="piltHotell"
-                  @change="loadFile">
-                <label tabindex="0" for="piltHotell" class="input-file-trigger">Lae ülesse pilt
-                  raamatust</label>
-              </form>
+              <input type="file" name="image" accept="image/png, image/jpeg" class="input-file"
+                id="raamatuPilt"  >
+              <label tabindex="0" for="raamatuPilt" class="input-file-trigger">Lae ülesse pilt
+                raamatust</label>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="text-center mt-auto">
+              <div class="d-inline-block">
+                <button id="add-btn" type="submit" class="button"><strong>Lisa raamat</strong></button>
+              </div>
             </div>
           </div>
         </form>
-      </div>
-      <div class="card-footer align-bottom flex justify-content-center">
-        <button id="add-btn" type="submit" form="piltForm" class="btn mainBtn"><strong>Lisa raamat</strong></button>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+
+<script setup>
+const client = useSupabaseClient()
+
+const raamatuNimi = ref('')
+const raamatuKeel = ref('')
+const raamatuKirjeldus = ref('')
+const raamatuAutor = ref('')
+const raamatuKategooria = ref('')
+const raamatuPilt = ref('')
+const languages = ref(['Eesti keel', 'Inglise keel', 'Vene keel', 'Rootsi keel', 'Soome keel', 'Saksa keel'])
+const categories = ref(['Ajalugu','Arvuti ja internet','Astroloogia','Arhitektuur ja sisekujundus','Biograafia','Humanitaarteadus','Ilukirjandus','Keeled ja sõnastikud','Kodu ja aed','Kokandus','Kunst ja muusika','Lastekirjandus','Loodusteadus','Majandus','Meelelahutus','Noortekirjandus','Poliitika','Psühholoogia','Turism','Religioon','Suhted ja perekond','Teatmeteos','Tervis','Pedagoogika'])
+
+
+const addBook = async () => {
+  uploadImage(raamatuPilt.value)
+  await client
+    .from('RAAMATUD')
+    .insert({ 'Pealkiri': raamatuNimi.value, 'Autor': raamatuAutor.value, 'Kirjeldus': raamatuKirjeldus.value, 'Keel': raamatuKeel.value, 'Kategooria': raamatuKategooria.value });
+}
+
+const handleUpload = async (e) => {
+  let file;
+
+  if (e.target.files) {
+    file = e.target.files[0]
+  }
+
+  const { data, error } = await client.storage
+    .from('Images')
+    .upload('public' + file?.name, file)
+}
 
 </script>
 
+<script>
+export default {
+  data() {
+    return {
+      book: {
+        category: '',
+        content: '',
+      },
+    }
+  },
+}
+</script>
+
 <style scoped>
-.addhotel-card {
+.addbook-card {
   width: 68rem;
   background-color: #F6F6F6;
   border: none;
@@ -77,55 +130,49 @@
   background-color: #fff;
 }
 
-.mainBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 66px;
-  width: 190px;
-  background: #FF9B42;
-  font-size: 24px;
-  border-radius: 10px;
-  cursor: pointer;
-  border-color: #FF9B42;
-}
-
-.mainBtn:hover {
-  background-color: #FAAB51;
-  border-color: #FAAB51;
-}
-
-.txtarea {
+.inp select {
+  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
-  height: 150px;
-  padding: 12px 20px;
-  box-sizing: border-box;
-  border: 2px solid #fff;
-  border-radius: 10px;
+  border: 0;
+  font-family: inherit;
+  padding: 16px 12px 0 12px;
+  height: 66px;
   font-size: 16px;
+  font-weight: 400;
   background-color: #fff;
-  color: rgba(53, 53, 53, 0.5);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  color: #000;
+  transition: all 0.15s ease;
+  cursor: pointer;
 }
 
-.action {
-  color: black;
+.inp select:not(:placeholder-shown)+.label {
+  color: rgba(0, 0, 0, 0.5);
+  transform: translate3d(0, -12px, 0) scale(0.75);
 }
 
-.txtarea:focus + label {
-  display: none;
-}
-.txtarea:valid + label {
-  display: none;
+.inp select:focus {
+  outline: none;
+  box-shadow: inset 0 -2px 0 #FF9B42;
 }
 
-.label-in-textarea {
-  position: relative;
+.inp select:focus+.label {
+  color: #C3C3C3;
+  transform: translate3d(0, -12px, 0) scale(0.75);
 }
-.label-in-textarea > label {
+
+.inp .label {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 25px;
+  left: 12px;
+  font-size: 16px;
+  color: #C3C3C3;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.2s ease;
+  pointer-events: none;
 }
 
 .inp .label {
@@ -175,6 +222,83 @@
 .inp input:focus+.label {
   color: #C3C3C3;
   transform: translate3d(0, -12px, 0) scale(0.75);
+}
+
+.inp {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.txtarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  color: rgb(0, 0, 0);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.label {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 16px;
+  color: #C3C3C3;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.txtarea:focus+label {
+  display: none;
+}
+
+.txtarea:valid+label {
+  display: none;
+}
+
+.txtarea:focus {
+  outline: none;
+  box-shadow: inset 0 -2px 0 #FF9B42;
+}
+
+.txtarea:focus+.label {
+  color: #C3C3C3;
+  transform: translate3d(0, -25px, 0) scale(0.75);
+}
+
+.txtarea:not(:placeholder-shown)+.label {
+  color: rgba(0, 0, 0, 0.5);
+  transform: translate3d(0, -25px, 0) scale(0.75);
+}
+
+.button {
+  padding: 20px 40px;
+  font-weight: bold;
+  border-radius: 50px;
+  border: 0;
+  background-color: #FF9B42;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all .5s ease;
+}
+
+.button:hover {
+  letter-spacing: 3px;
+  background-color: rgb(252, 133, 28);
+  color: hsl(0, 0%, 100%);
 }
 
 .card-footer {

@@ -1,67 +1,53 @@
-<!-- Siia tuleb Book component, ehk see, kus on raamatu pilt, nimi ja autor main pagel näiteks -->
 <template>
-    <div class="col" style="margin-top: 12px; margin-bottom: 12px;">
-        <div id="item" class="card home-card h-100">
-            <NuxtLink :to="`/borrowedBooks/${props.book.Pealkiri}`" class="card-link">
-                <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.book.Pilt" id="book-image" class="card-img-top">
-                <div class="card-body d-flex justify-content-between align-items-top p-2">
-                    <div class="flex justify-content-center">
-                        <h5 id="book-name" class="card-title">{{ props.book.Pealkiri }}</h5>
-                        <h5 id="book-author" class="card-title">{{ props.book.Autor }}</h5>
-                    </div>
-                </div>
-              <p id="date-text" class="text-start">Tagastamise tähtaeg: <span id="date">tähtaeg</span></p>
-            </NuxtLink>
-        </div>
-    </div>
+  <div class="card">
+      <NuxtLink :to="`/borrowedBooks/${props.books.Raamatu_ID}`">
+          <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.books.Pilt"
+              class="card-img-top" alt="Book cover">
+          <div class="card-body">
+              <h5 class="card-title">{{ props.books.Pealkiri }}</h5>
+              <p class="card-text">{{ props.books.Autor }}</p>
+              <a id="date-text" class="card-link">Tagastamise tähtaeg: <span id="date">date</span></a>
+          </div>
+      </NuxtLink>
+  </div>
 </template>
 
 <script setup>
-const props = defineProps(['book'])
+const props = defineProps(['books'])
 
 </script>
 
 <style scoped>
-
 a {
     text-decoration: none;
-}
-.col {
-  margin-left: 50px;
-}
-#item {
-  float: left;
-  margin-left: 40px;
-  max-width: 156px;
+    color: #000;
 }
 
-#book-author {
-  font-size: 14px;
-  color: #6D6D6D;
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #dadada;
+    border: none !important;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
 
-#book-name {
-  font-size: 20px;
-  margin-top: -5px;
-  color: #000000;
+.card-img-top {
+    max-height: 300px;
+    object-fit: cover;
 }
 
-#date-text {
-  margin-left: 7px;
-  font-size: 14px;
-  color: #000000;
+.card-link {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.5rem;
+    text-align: end;
 }
 
-#date {
-  display: flex;
-  justify-content: left;
-}
-
-#book-image {
-  width: 154.5px;
-  align-self: auto;
-  justify-content: right;
-  align-items: baseline;
-  float: top;
+.card:hover {
+    transform: scale(1.02);
 }
 </style>

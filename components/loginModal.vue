@@ -9,9 +9,9 @@
       </div>
       <div class="form-container">
         <div class="form-inner">
-          <form action="#" @submit="login" class="login">
+          <form @submit.prevent="login" class="login" autocomplete="off">
             <div class="field">
-              <input type="email" v-model="emailLogin" placeholder="E-maili Aadress" required>
+              <input type="email" v-model="emailLogin" placeholder="E-maili Aadress" autocomplete="on" required>
             </div>
             <div class="field">
               <input type="password" v-model="paroolLogin" placeholder="Parool" required>
@@ -22,7 +22,7 @@
               <input type="submit" value="Logi sisse" data-bs-dismiss="modal">
             </div>
             <div class="signup-link">
-              Pole kasutajat? <a data-bs-toggle="modal" data-bs-target="#registerModal">Registreeri
+              Pole kasutajat? <a>Registreeri
                 siin</a>
             </div>
           </form>
@@ -32,7 +32,19 @@
   </div>
 </template>
 
-<script>
+<script setup>
+const client = useSupabaseAuthClient()
+
+const emailLogin = ref('')
+const paroolLogin = ref('')
+const message = ref('')
+
+const login = async () => {
+  await client.auth.signInWithPassword({
+    email: emailLogin.value,
+    password: paroolLogin.value,
+  })
+}
 </script>
 
 <style scoped>
@@ -42,6 +54,7 @@
 }
 
 .modal-overlays {
+  z-index: 999;
   position: fixed;
   top: 0;
   bottom: 0;
