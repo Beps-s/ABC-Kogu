@@ -24,7 +24,8 @@
             </div>
             <div class="py-2">
               <label for="textArea" class="inp">
-                <textarea id="textArea" v-model="raamatuKirjeldus" class="txtarea" placeholder="&nbsp;" required></textarea>
+                <textarea id="textArea" v-model="raamatuKirjeldus" class="txtarea" placeholder="&nbsp;"
+                  required></textarea>
                 <span class="label">Raamatu Kirjeldus</span>
               </label>
             </div>
@@ -46,10 +47,13 @@
               </label>
             </div>
             <div class="pt-2">
-              <input type="file" name="image" accept="image/png, image/jpeg" class="input-file"
-                id="raamatuPilt"  >
-              <label tabindex="0" for="raamatuPilt" class="input-file-trigger">Lae ülesse pilt
-                raamatust</label>
+              <input type="file" name="image" accept="image/png, image/jpeg" class="input-file" id="raamatuPilt"
+                @change="handleFileUpload">
+              <label tabindex="0" for="raamatuPilt" class="input-file-trigger">
+                {{ raamatuPilt?.name || 'Lae ülesse pilt raamatust' }}</label>
+            </div>
+            <div class="pt-4 justify-content-center text-center">
+              <img class="image250" id="output" />
             </div>
           </div>
           <div class="card-footer">
@@ -65,7 +69,6 @@
   </div>
 </template>
 
-
 <script setup>
 const client = useSupabaseClient()
 
@@ -74,28 +77,32 @@ const raamatuKeel = ref('')
 const raamatuKirjeldus = ref('')
 const raamatuAutor = ref('')
 const raamatuKategooria = ref('')
-const raamatuPilt = ref('')
+const raamatuPilt = ref(null)
 const languages = ref(['Eesti keel', 'Inglise keel', 'Vene keel', 'Rootsi keel', 'Soome keel', 'Saksa keel'])
-const categories = ref(['Ajalugu','Arvuti ja internet','Astroloogia','Arhitektuur ja sisekujundus','Biograafia','Humanitaarteadus','Ilukirjandus','Keeled ja sõnastikud','Kodu ja aed','Kokandus','Kunst ja muusika','Lastekirjandus','Loodusteadus','Majandus','Meelelahutus','Noortekirjandus','Poliitika','Psühholoogia','Turism','Religioon','Suhted ja perekond','Teatmeteos','Tervis','Pedagoogika'])
+const categories = ref(['Ajalugu', 'Arvuti ja internet', 'Astroloogia', 'Arhitektuur ja sisekujundus', 'Biograafia', 'Humanitaarteadus', 'Ilukirjandus', 'Keeled ja sõnastikud', 'Kodu ja aed', 'Kokandus', 'Kunst ja muusika', 'Lastekirjandus', 'Loodusteadus', 'Majandus', 'Meelelahutus', 'Noortekirjandus', 'Poliitika', 'Psühholoogia', 'Turism', 'Religioon', 'Suhted ja perekond', 'Teatmeteos', 'Tervis', 'Pedagoogika'])
 
 
 const addBook = async () => {
-  uploadImage(raamatuPilt.value)
+  await uploadImage(raamatuPilt.value)
   await client
     .from('RAAMATUD')
-    .insert({ 'Pealkiri': raamatuNimi.value, 'Autor': raamatuAutor.value, 'Kirjeldus': raamatuKirjeldus.value, 'Keel': raamatuKeel.value, 'Kategooria': raamatuKategooria.value });
+    .insert({ 'Pealkiri': raamatuNimi.value, 'Autor': raamatuAutor.value, 'Kirjeldus': raamatuKirjeldus.value, 'Keel': raamatuKeel.value, 'Kategooria': raamatuKategooria.value, 'Pilt': raamatuPilt.value.name });
 }
 
-const handleUpload = async (e) => {
-  let file;
+const handleFileUpload = (event) => {
+  raamatuPilt.value = event.target.files[0]
+  var image = document.getElementById('output');
+  image.src = URL.createObjectURL(event.target.files[0]);
+  console.log(image.src)
+}
 
-  if (e.target.files) {
-    file = e.target.files[0]
+const uploadImage = async (file) => {
+  const { data, error } = await client.storage.from('images').upload(`/${file.name}`, file)
+  if (error) {
+    console.error(error)
+  } else {
+    return data.Key
   }
-
-  const { data, error } = await client.storage
-    .from('Images')
-    .upload('public' + file?.name, file)
 }
 
 </script>
@@ -114,6 +121,15 @@ export default {
 </script>
 
 <style scoped>
+.image250 {
+  display: inline-block;
+  object-fit: contain;
+  width: 100%;
+  max-width: auto;
+  height: 100%;
+  max-height: 30vh;
+}
+
 .addbook-card {
   width: 68rem;
   background-color: #F6F6F6;
