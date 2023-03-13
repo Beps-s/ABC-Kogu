@@ -13,7 +13,7 @@
           <div class="mt-auto">
             <div class="d-inline-block">
               <button class="button" @click="returnBook">Tagasta</button>
-              <button class="button">Pikenda tähtaega</button>
+              <button class="button" @click="extendReturnDate">Pikenda tähtaega</button>
             </div>
           </div>
         </div>
@@ -41,6 +41,25 @@ async function returnBook() {
     alert(error)
   } else {
     window.location.href = "http://localhost:3000/borrowedbooks";
+  }
+}
+async function extendReturnDate() {
+  const {data, error} = await client
+      .from('LAENUTUSED')
+      .delete()
+      .eq('Raamatu_ID', id)
+  if (error) {
+    alert(error)
+  } else {
+    window.location.href = "http://localhost:3000/borrowedbooks";
+    const {data, error} = await client
+        .from('LAENUTUSED')
+        .insert({kasutaja_id: user.id, Raamatu_ID: id});
+    if (error) {
+      console.log(error)
+    } else {
+      alert("Raamatu tähtaeg pikendatud!")
+    }
   }
 }
 </script>
