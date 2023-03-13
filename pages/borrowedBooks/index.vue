@@ -21,14 +21,19 @@ const props = defineProps({
 
 const client = useSupabaseClient()
 const books = ref([])
-
+const { auth } = useSupabaseAuthClient()
+const { data: {user}} = await client.auth.getUser()
 async function getBooks() {
-  const { data, error } = await client.from('RAAMATUD').select('*')
+  const id = user.id;
+  let { data, error } = await client
+      .from('LAENUTUSED')
+      .select(`books:RAAMATUD (Autor, Kategooria, Keel, Kirjeldus, Pealkiri, Pilt, Raamatu_ID, Sisu)`)
+      .eq('Kasutaja_ID', id)
   if (error) {
     console.error(error)
     return
   }
-  books.value = data
+  books.value = data.map(item => item.books)
 }
 
 onMounted(getBooks)
