@@ -24,7 +24,8 @@
           <a @click="showLoginModal = true"><img src="../assets/images/UserCircle.png">Logi sisse</a>
         </div>
         <div v-else class="menu-item mr-4">
-          <img src="../assets/images/UserCircle.png"><DropdownButton />
+          <img src="../assets/images/UserCircle.png">
+          <DropdownButton />
         </div>
       </div>
     </div>
@@ -34,8 +35,18 @@
 </template>
   
 <script setup>
+const client = useSupabaseClient()
 const userIn = useSupabaseUser()
 const search = useState('search')
+
+if (userIn) {
+  const {
+    data: { user },
+  } = await client.auth.getUser()
+  let metadata = user.user_metadata
+  console.log("metadata", metadata)
+}
+
 </script>
 
 <script>
@@ -118,4 +129,5 @@ input:hover {
   fill: #9e9ea7;
   width: 1rem;
   height: 1rem;
-}</style>
+}
+</style>
