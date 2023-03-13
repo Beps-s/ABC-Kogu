@@ -39,18 +39,34 @@ const emailLogin = ref('')
 const paroolLogin = ref('')
 const message = ref('')
 
-const login = async () => {
-  await client.auth.signInWithPassword({
+async function login() {
+  const { user, error } = await client.auth.signInWithPassword({
     email: emailLogin.value,
     password: paroolLogin.value,
-  })
+  });
+  if (error) {
+    message.value = error.message
+    return null;
+  } else {
+    return user;
+  }
 }
+
 </script>
 
+
 <style scoped>
+
 * {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+}
+
+h3 {
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 2%;
 }
 
 .modal-overlays {
@@ -68,7 +84,7 @@ const login = async () => {
 .wrapper {
   overflow: hidden;
   margin-top: 10%;
-  height: 400px;
+  height: 440px;
   width: 500px;
   text-align: center;
   background-color: white;

@@ -93,7 +93,6 @@ const handleFileUpload = (event) => {
   raamatuPilt.value = event.target.files[0]
   var image = document.getElementById('output');
   image.src = URL.createObjectURL(event.target.files[0]);
-  console.log(image.src)
 }
 
 const uploadImage = async (file) => {

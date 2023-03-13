@@ -30,22 +30,13 @@
       </div>
     </div>
   </nav>
-  <loginModal v-show="showLoginModal" @close-modal="showLoginModal = false" />
+  <loginModal v-show="showLoginModal" @close-modal="onCloseModal" />
   <registerModal v-show="showRegisterModal" @close-modal="showRegisterModal = false" />
 </template>
   
 <script setup>
-const client = useSupabaseClient()
 const userIn = useSupabaseUser()
 const search = useState('search')
-
-if (userIn === "true") {
-  const {
-    data: { user },
-  } = await client.auth.getUser()
-  let metadata = user.user_metadata
-  console.log("metadata", metadata)
-}
 
 </script>
 
@@ -61,6 +52,12 @@ export default {
       showLoginModal: false,
       showRegisterModal: false,
     }
+  },
+  methods: {
+    onCloseModal() {
+      this.showLoginModal = false
+      this.showRegisterModal = false
+    },
   },
 }
 </script>

@@ -51,21 +51,28 @@ const paroolReg = ref('')
 const paroolUuestiReg = ref('')
 const message = ref('')
 
-const register = async () => {
+async function register() {
   if (paroolReg.value !== paroolUuestiReg.value) {
     message.value = 'Paroolid ei kattu'
-  }
-  await client.auth.signUp({
-    email: emailReg.value,
-    password: paroolReg.value,
-    options: {
-      data: {
-        eesnimi: eesnimiReg.value,
-        perenimi: perenimiReg.value,
+  } else {
+    const { user, error } = await client.auth.signUp({
+      email: emailReg.value,
+      password: paroolReg.value,
+      options: {
+        data: {
+          eesnimi: eesnimiReg.value,
+          perenimi: perenimiReg.value,
+        },
       },
-    },
-  })
-  return
+    });
+    if (error) {
+      message.value = error.message
+      return null;
+    } else {
+      message.value = 'Konto loodud'
+      return user;
+    }
+  }
 }
 </script>
 
@@ -77,8 +84,9 @@ const register = async () => {
 
 h3 {
   color: red;
-  padding-top: 20px;
   font-weight: bold;
+  font-size: 20px;
+  margin-top: 2%;
 }
 
 .modal-overlays {
