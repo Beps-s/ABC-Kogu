@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="filters">
-      <h5>Kategooria</h5>
-      <div class="category" v-for="filter in categoryFilters" :key="filter">
+      <div @click="closeCategory()" style="cursor: pointer;"><h5>Kategooria <img src="~/assets/images/Arrow.png" alt="arrow"></h5></div>
+      <div v-if="Kategooria === true" class="category" v-for="filter in categoryFilters" :key="filter">
         <input type="checkbox" :id="filter" :value="filter" v-model="selectedCategoryFilters"
                @change="toggleCategoryFilter(filter)">
         <label :for="filter">{{ filter }}</label>
       </div>
-      <h5>Keel</h5>
-      <div class="language" v-for="filter in languageFilters" :key="filter">
+      <div @click="closeLanguage()" style="cursor: pointer;"><h5>Keel <img src="~/assets/images/Arrow.png" alt="arrow"></h5></div>
+      <div v-if="Keel === true" class="language" v-for="filter in languageFilters" :key="filter">
         <input type="checkbox" :id="filter" :value="filter" v-model="selectedLanguageFilters"
                @change="toggleLanguageFilter(filter)">
         <label :for="filter">{{ filter }}</label>
@@ -40,9 +40,17 @@ export default {
       languageFilters: ["Eesti keel", "Inglise keel", "Vene keel", "Rootsi keel", "Soome keel", "Saksa keel"],
       selectedCategoryFilters: [],
       selectedLanguageFilters: [],
+      Keel: true,
+      Kategooria: true,
     };
   },
   methods: {
+    closeCategory() {
+      this.Kategooria = !this.Kategooria;
+    },
+    closeLanguage() {
+      this.Keel = !this.Keel;
+    },
     toggleCategoryFilter(filter) {
       if (!this.selectedCategoryFilters.includes(filter)) {
         this.selectedCategoryFilters = this.selectedCategoryFilters.filter((f) => f !== filter)
