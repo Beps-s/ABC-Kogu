@@ -11,7 +11,7 @@
         <p class="mb-4">{{ books[0].Kirjeldus }}</p>
         <div class="text-center mt-auto">
           <div class="d-inline-block">
-            <button v-if="userIn" class="button">Laenuta</button>
+            <button v-if="userIn" class="button" @click="borrow">Laenuta</button>
           </div>
         </div>
       </div>
@@ -23,12 +23,22 @@
 const client = useSupabaseClient()
 const userIn = useSupabaseUser()
 const { id } = useRoute().params
+const { auth } = useSupabaseAuthClient()
+const { data: {user}} = await client.auth.getUser()
 
 let { data: books, error } = await client
   .from('RAAMATUD')
   .select('*')
   .eq('Raamatu_ID', id)
 
+async function borrow() {
+  console.log(user.id)
+  console.log(id)
+  const { data, error } = await client
+      .from('LAENUTUSED')
+      .insert({ Kasutaja_ID: user.id, Raamatu_ID: id });
+
+}
 </script>
 
 <style scoped>
