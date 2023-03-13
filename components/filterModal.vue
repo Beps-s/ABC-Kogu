@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="filters">
-      <div @click="closeCategory()" style="cursor: pointer;"><h5>Kategooria <img src="~/assets/images/Arrow.png" alt="arrow"></h5></div>
+      <div @click="closeCategory()" style="cursor: pointer;"><h5>Kategooria <img src="~/assets/images/Arrow.png" id="arrow" alt="arrow"></h5></div>
       <div v-if="Kategooria === true" class="category" v-for="filter in categoryFilters" :key="filter">
         <input type="checkbox" :id="filter" :value="filter" v-model="selectedCategoryFilters"
                @change="toggleCategoryFilter(filter)">
         <label :for="filter">{{ filter }}</label>
       </div>
-      <div @click="closeLanguage()" style="cursor: pointer;"><h5>Keel <img src="~/assets/images/Arrow.png" alt="arrow"></h5></div>
+      <div @click="closeLanguage()" style="cursor: pointer;"><h5>Keel <img src="~/assets/images/Arrow.png" id="arrow2" alt="arrow"></h5></div>
       <div v-if="Keel === true" class="language" v-for="filter in languageFilters" :key="filter">
         <input type="checkbox" :id="filter" :value="filter" v-model="selectedLanguageFilters"
                @change="toggleLanguageFilter(filter)">
@@ -23,6 +23,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+
+</script>
 
 <script>
 export default {
@@ -40,16 +44,29 @@ export default {
       languageFilters: ["Eesti keel", "Inglise keel", "Vene keel", "Rootsi keel", "Soome keel", "Saksa keel"],
       selectedCategoryFilters: [],
       selectedLanguageFilters: [],
-      Keel: true,
-      Kategooria: true,
+      Keel: false,
+      Kategooria: false,
+      rotationAngle: 0,
     };
   },
   methods: {
     closeCategory() {
       this.Kategooria = !this.Kategooria;
+      const image = document.getElementById("arrow");
+      this.rotationAngle += 90;
+      if (this.rotationAngle === 180) {
+        this.rotationAngle = 0;
+      }
+      image.style.transform = `rotate(${this.rotationAngle}deg)`;
     },
     closeLanguage() {
       this.Keel = !this.Keel;
+      const image2 = document.getElementById("arrow2");
+      this.rotationAngle += 90;
+      if (this.rotationAngle === 180) {
+        this.rotationAngle = 0;
+      }
+      image2.style.transform = `rotate(${this.rotationAngle}deg)`;
     },
     toggleCategoryFilter(filter) {
       if (!this.selectedCategoryFilters.includes(filter)) {
@@ -85,12 +102,20 @@ export default {
           }
         })
       }
-    }
+    },
   }
 };
 </script>
 
 <style scoped>
+
+img {
+  width: 15px;
+  height: 12px;
+  position: relative;
+  rotate: 270deg;
+}
+
 input[type="checkbox"] {
   margin-right: 10px;
 }
