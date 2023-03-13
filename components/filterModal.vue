@@ -4,20 +4,20 @@
       <h5>Kategooria</h5>
       <div class="category" v-for="filter in categoryFilters" :key="filter">
         <input type="checkbox" :id="filter" :value="filter" v-model="selectedCategoryFilters"
-          @change="toggleCategoryFilter(filter)">
+               @change="toggleCategoryFilter(filter)">
         <label :for="filter">{{ filter }}</label>
       </div>
       <h5>Keel</h5>
       <div class="language" v-for="filter in languageFilters" :key="filter">
         <input type="checkbox" :id="filter" :value="filter" v-model="selectedLanguageFilters"
-          @change="toggleLanguageFilter(filter)">
+               @change="toggleLanguageFilter(filter)">
         <label :for="filter">{{ filter }}</label>
       </div>
     </div>
     <div class="container">
       <div class="row row-cols-4">
-        <div v-for="b in filteredBooks" :key="b.Raamatu_ID">
-          <HomePage-Book :book="b" />
+        <div v-for="book in filteredBooks" :key="book.Raamatu_ID">
+          <HomePage-Book :book="book"/>
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "Filters",
+  name: "FilterModal",
   props: {
     books: {
       type: Array,
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       filter: "",
-      categoryFilters: ['Ajalugu','Arvuti ja internet','Astroloogia','Arhitektuur ja sisekujundus','Biograafia','Humanitaarteadus','Ilukirjandus','Keeled ja sõnastikud','Kodu ja aed','Kokandus','Kunst ja muusika','Lastekirjandus','Loodusteadus','Majandus','Meelelahutus','Noortekirjandus','Poliitika','Psühholoogia','Turism','Religioon','Suhted ja perekond','Teatmeteos','Tervis','Pedagoogika'],
+      categoryFilters: ['Ajalugu', 'Arvuti ja internet', 'Astroloogia', 'Arhitektuur ja sisekujundus', 'Biograafia', 'Humanitaarteadus', 'Ilukirjandus', 'Keeled ja sõnastikud', 'Kodu ja aed', 'Kokandus', 'Kunst ja muusika', 'Lastekirjandus', 'Loodusteadus', 'Majandus', 'Meelelahutus', 'Noortekirjandus', 'Poliitika', 'Psühholoogia', 'Turism', 'Religioon', 'Suhted ja perekond', 'Teatmeteos', 'Tervis', 'Pedagoogika'],
       languageFilters: ["Eesti keel", "Inglise keel", "Vene keel", "Rootsi keel", "Soome keel", "Saksa keel"],
       selectedCategoryFilters: [],
       selectedLanguageFilters: [],
@@ -50,6 +50,7 @@ export default {
         this.selectedCategoryFilters = this.selectedCategoryFilters.filter((f) => f !== filter)
         this.selectedCategoryFilters.push(filter)
       }
+      this.$emit('filtered', this.applyFilters())
     },
     toggleLanguageFilter(filter) {
       if (!this.selectedLanguageFilters.includes(filter)) {
@@ -58,10 +59,10 @@ export default {
         this.selectedLanguageFilters = this.selectedLanguageFilters.filter((f) => f !== filter)
         this.selectedLanguageFilters.push(filter)
       }
+      this.$emit('filtered', this.applyFilters())
     },
-  },
-  computed: {
-    filteredBooks() {
+    // Filter options methods here
+    applyFilters() {
       if (this.selectedLanguageFilters.length === 0 && this.selectedCategoryFilters.length === 0) {
         return this.books
       } else {

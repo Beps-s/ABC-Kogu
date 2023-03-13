@@ -7,7 +7,7 @@
             <h4>Filtrid</h4>
           </div>
           <div class="card-body">
-            <filterModal />
+            <filterModal :books="books" @filtered="filteredBook = $event" />
           </div>
         </div>
       </div>
@@ -23,12 +23,15 @@
 </template>
 
 <script setup>
+import filterModal from '~/components/filterModal.vue'
+
 const props = defineProps({
   searchValue: String
 })
 
 const client = useSupabaseClient()
 const books = ref([])
+const filteredBook = ref([])
 
 async function getBooks() {
   const { data, error } = await client.from('RAAMATUD').select('*')
@@ -37,11 +40,10 @@ async function getBooks() {
     return
   }
   books.value = data
+  filteredBook.value = data
 }
 
 onMounted(getBooks)
-
-const filteredBook = ref([])
 
 function filterBook() {
   if (!props.searchValue) {

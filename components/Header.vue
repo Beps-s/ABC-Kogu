@@ -39,7 +39,7 @@ const client = useSupabaseClient()
 const userIn = useSupabaseUser()
 const search = useState('search')
 
-if (userIn) {
+if (userIn === "true") {
   const {
     data: { user },
   } = await client.auth.getUser()
