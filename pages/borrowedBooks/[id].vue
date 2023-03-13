@@ -40,7 +40,7 @@ async function returnBook() {
   if (error) {
     alert(error)
   } else {
-    window.location.href = "http://localhost:3000/borrowedbooks";
+    navigateTo('/borrowedBooks')
   }
 }
 async function extendReturnDate() {
