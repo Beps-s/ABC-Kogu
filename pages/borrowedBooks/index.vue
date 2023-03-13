@@ -28,7 +28,7 @@ async function getBooks() {
   let { data, error } = await client
       .from('LAENUTUSED')
       .select(`books:RAAMATUD (Autor, Kategooria, Keel, Kirjeldus, Pealkiri, Pilt, Raamatu_ID, Sisu)`)
-      .eq('Kasutaja_ID', id)
+      .eq('kasutaja_id', id)
   if (error) {
     console.error(error)
     return

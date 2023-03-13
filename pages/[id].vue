@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-5">
         <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt"
-          class="img-fluid" alt="Book cover">
+             class="img-fluid" alt="Book cover">
       </div>
       <div class="col-md-7 d-flex flex-column">
         <h1 class="mb-4">{{ books[0].Pealkiri }}</h1>
@@ -22,22 +22,19 @@
 <script setup>
 const client = useSupabaseClient()
 const userIn = useSupabaseUser()
-const { id } = useRoute().params
-const { auth } = useSupabaseAuthClient()
-const { data: {user}} = await client.auth.getUser()
+const {id} = useRoute().params
+const {auth} = useSupabaseAuthClient()
+const {data: {user}} = await client.auth.getUser()
 
-let { data: books, error } = await client
-  .from('RAAMATUD')
-  .select('*')
-  .eq('Raamatu_ID', id)
+let {data: books, error} = await client
+    .from('RAAMATUD')
+    .select('*')
+    .eq('Raamatu_ID', id)
 
 async function borrow() {
-  console.log(user.id)
-  console.log(id)
-  const { data, error } = await client
+  const {data, error} = await client
       .from('LAENUTUSED')
-      .insert({ Kasutaja_ID: user.id, Raamatu_ID: id });
-
+      .insert({kasutaja_id: user.id, Raamatu_ID: id});
 }
 </script>
 

@@ -12,7 +12,7 @@
           <p class="mb-4">{{ books[0].Kirjeldus }}</p>
           <div class="mt-auto">
             <div class="d-inline-block">
-              <button class="button">Tagasta</button>
+              <button class="button" @click="returnBook">Tagasta</button>
               <button class="button">Pikenda tähtaega</button>
             </div>
           </div>
@@ -24,12 +24,25 @@
 <script setup>
 const client = useSupabaseClient()
 const { id } = useRoute().params
+const {auth} = useSupabaseAuthClient()
+const {data: {user}} = await client.auth.getUser()
 
 let { data: books, error } = await client
   .from('RAAMATUD')
   .select('*')
   .eq('Raamatu_ID', id)
 
+async function returnBook() {
+  const {data, error} = await client
+      .from('LAENUTUSED')
+      .delete()
+      .eq('Raamatu_ID', id)
+  if (error) {
+    alert(error)
+  } else {
+    window.location.href = "http://localhost:3000/borrowedbooks";
+  }
+}
 </script>
 
 <style scoped>
