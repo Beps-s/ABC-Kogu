@@ -1,12 +1,12 @@
 <template>
   <div class="card">
-      <NuxtLink :to="`/borrowedBooks/${props.books.Raamatu_ID}`">
-          <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.books.Pilt"
+      <NuxtLink :to="`/borrowedBooks/${props.books.books.Raamatu_ID}`">
+          <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.books.books.Pilt"
               class="card-img-top" alt="Book cover">
           <div class="card-body">
-              <h5 class="card-title">{{ props.books.Pealkiri }}</h5>
-              <p class="card-text">{{ props.books.Autor }}</p>
-              <a id="date-text" class="card-link">Tagastamise tähtaeg: <span id="date">date</span></a>
+              <h5 class="card-title">{{ props.books.books.Pealkiri }}</h5>
+              <p class="card-text">{{ props.books.books.Autor }}</p>
+              <a id="date-text" class="card-link">Tagastamise tähtaeg: <span id="date">{{ props.books.TKuupaev }}</span></a>
           </div>
       </NuxtLink>
   </div>
@@ -14,7 +14,6 @@
 
 <script setup>
 const props = defineProps(['books'])
-
 </script>
 
 <style scoped>

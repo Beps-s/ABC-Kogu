@@ -30,13 +30,13 @@ async function getBooks() {
   const id = user.id;
   let { data, error } = await client
       .from('LAENUTUSED')
-      .select(`books:RAAMATUD (Autor, Kategooria, Keel, Kirjeldus, Pealkiri, Pilt, Raamatu_ID, Sisu)`)
+      .select(`books:RAAMATUD (Autor, Kategooria, Keel, Kirjeldus, Pealkiri, Pilt, Raamatu_ID, Sisu), *`)
       .eq('kasutaja_id', id)
   if (error) {
     console.error(error)
     return
   }
-  books.value = data.map(item => item.books)
+  books.value = data
 }
 
 onMounted(getBooks)
