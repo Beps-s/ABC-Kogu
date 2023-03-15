@@ -34,7 +34,20 @@ let {data: books, error} = await client
 async function borrow() {
   const {data, error} = await client
       .from('LAENUTUSED')
-      .insert({kasutaja_id: user.id, Raamatu_ID: id});
+      .select('*')
+      .eq('kasutaja_id', user.id)
+      .eq('Raamatu_ID', id)
+  if (error) {
+    console.log(error)
+  } else {
+    if (data.length === 0) {
+      const {data, error} = await client
+          .from('LAENUTUSED')
+          .insert({kasutaja_id: user.id, Raamatu_ID: id});
+    } else {
+      alert("Oled juba laenutanud raamatu")
+    }
+  }
 }
 </script>
 
