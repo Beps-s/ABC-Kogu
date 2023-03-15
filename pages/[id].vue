@@ -17,7 +17,7 @@
         <p class="mb-4">{{ books.Kirjeldus }}</p>
         <div class="text-center mt-auto">
           <div class="d-inline-block">
-            <button v-if="userIn" class="button" @click="borrow">Laenuta</button>
+            <button v-if="user" class="button" @click="borrow">Laenuta</button>
           </div>
         </div>
       </div>
@@ -29,15 +29,13 @@
 import { onBeforeMount, ref } from 'vue';
 
 const client = useSupabaseClient()
-const userIn = useSupabaseUser()
+const user = useSupabaseUser()
 const { auth } = useSupabaseAuthClient()
 
 const { id } = useRoute().params
 const isLoading = ref(false)
 const books = ref(null)
 const img_src = ref(null)
-
-const { user } = await client.auth.getUser()
 
 async function getBooks() {
   isLoading.value = true
@@ -61,7 +59,7 @@ async function borrow() {
   const {data, error} = await client
       .from('LAENUTUSED')
       .select('*')
-      .eq('kasutaja_id', user.id)
+      .eq('kasutaja_id', user.value.id)
       .eq('Raamatu_ID', id)
   if (error) {
     console.log(error)
@@ -69,7 +67,7 @@ async function borrow() {
     if (data.length === 0) {
       const {data, error} = await client
           .from('LAENUTUSED')
-          .insert({kasutaja_id: user.id, Raamatu_ID: id});
+          .insert({kasutaja_id: user.value.id, Raamatu_ID: id});
     } else {
       alert("Oled juba laenutanud raamatu")
     }
