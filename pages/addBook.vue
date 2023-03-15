@@ -104,6 +104,12 @@ const uploadImage = async (file) => {
   }
 }
 
+const { data: { user } } = await client.auth.getUser()
+let metadata = user.user_metadata
+if (!metadata.options) {
+    navigateTo('/')
+}
+
 </script>
 
 <script>
