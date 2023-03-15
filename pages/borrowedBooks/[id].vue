@@ -51,7 +51,6 @@ async function extendReturnDate() {
   if (error) {
     alert(error)
   } else {
-    window.location.href = "http://localhost:3000/borrowedbooks";
     const {data, error} = await client
         .from('LAENUTUSED')
         .insert({kasutaja_id: user.id, Raamatu_ID: id});
@@ -71,6 +70,7 @@ async function extendReturnDate() {
   min-height: 500px;
   max-height: 700px;
   object-fit: cover;
+  border-radius: 20px;
 }
 
 .button {

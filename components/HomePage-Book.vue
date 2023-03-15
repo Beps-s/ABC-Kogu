@@ -29,14 +29,17 @@ a {
     height: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #dadada;
-    border: none !important;
+    background-color: #fff;
+    box-shadow: #000;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .card-img-top {
     max-height: 300px;
+    min-height: 300px;
     object-fit: cover;
 }
 

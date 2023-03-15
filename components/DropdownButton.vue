@@ -1,7 +1,7 @@
 <template>
     <div class="dropdown" ref="dropdown">
         <a class="dropdown-toggle" role="button" @click="toggleDropdown">
-            Profiil
+            {{ username }}
         </a>
         <div class="dropdown-menu" :class="{ show: isOpen }" ref="dropdownMenu">
             <NuxtLink class="dropdown-item" @click="closeDropdown">
@@ -10,7 +10,7 @@
             <NuxtLink class="dropdown-item" to="/borrowedBooks" @click="closeDropdown">
                 Minu Laenutused
             </NuxtLink>
-            <NuxtLink class="dropdown-item" to="/addBook" @click="closeDropdown">
+            <NuxtLink v-if="isAdmin" class="dropdown-item" to="/addBook" @click="closeDropdown">
                 Lisa Raamat
             </NuxtLink>
             <hr class="dropdown-divider" />
@@ -23,6 +23,15 @@
   
 <script setup>
 const client = useSupabaseAuthClient()
+const isAdmin = ref(false)
+
+
+const { data: { user } } = await client.auth.getUser()
+let metadata = user.user_metadata
+let username = metadata.eesnimi + " " + metadata.perenimi
+if (metadata.options) {
+    isAdmin.value = metadata.options.super_admin
+}
 
 const logout = async () => {
     await client.auth.signOut()
