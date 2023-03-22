@@ -1,5 +1,12 @@
 <template>
-  <div class="container">
+  <div v-if="isLoading" class="loadingspinner">
+    <div id="square1"></div>
+    <div id="square2"></div>
+    <div id="square3"></div>
+    <div id="square4"></div>
+    <div id="square5"></div>
+  </div>
+  <div v-else-if="books" class="container">
     <h1>Minu laenutatud raamatud:</h1>
     <div v-if="!books.length > 0">
       <h3 class="text-center">Teil ei ole ühtegi laenutatud raamatut</h3>
@@ -7,7 +14,7 @@
     <div class="row">
       <div class="col-md-9">
         <div class="row">
-          <div v-if="books" v-for="books in filteredBook" :key="books.Raamatu_ID" class="col-md-3 mb-4">
+          <div v-for="books in books" :key="books.Raamatu_ID" class="col-md-3 mb-4">
             <BorrowedPage-Book :books="books" />
           </div>
         </div>
@@ -19,45 +26,31 @@
 <script setup>
 const props = defineProps({
   searchValue: String
-
 })
 
 const client = useSupabaseClient()
-const books = ref([])
-const { auth } = useSupabaseAuthClient()
+const books = ref(null)
+const isLoading = ref(false)
 const { data: {user}} = await client.auth.getUser()
+
 async function getBooks() {
+  isLoading.value = true
   const id = user.id;
-  let { data, error } = await client
+  const { data, error } = await client
       .from('LAENUTUSED')
       .select(`books:RAAMATUD (Autor, Kategooria, Keel, Kirjeldus, Pealkiri, Pilt, Raamatu_ID, Sisu), *`)
       .eq('kasutaja_id', id)
   if (error) {
     console.error(error)
     return
+  } else {
+    books.value = data
   }
-  books.value = data
+  isLoading.value = false
 }
 
-onMounted(getBooks)
+onBeforeMount(getBooks);
 
-const filteredBook = ref([])
-
-function filterBook() {
-  if (!props.searchValue) {
-    filteredBook.value = books.value
-    return
-  }
-  filteredBook.value = books.value.filter((item) =>
-    item.Pealkiri.toLowerCase().includes(props.searchValue.toLowerCase()) ||
-    item.Autor.toLowerCase().includes(props.searchValue.toLowerCase())
-  )
-}
-
-watchEffect(() => {
-  filterBook()
-})
-  
 </script>
 
 <style scoped>

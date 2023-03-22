@@ -68,8 +68,10 @@ async function borrow() {
       const {data, error} = await client
           .from('LAENUTUSED')
           .insert({kasutaja_id: user.value.id, Raamatu_ID: id});
+          alert("Raamat laenutatud!")
+          navigateTo('/borrowedBooks')
     } else {
-      alert("Oled juba laenutanud raamatu")
+      alert("Oled juba teatud raamatu laenutanud!")
     }
   }
 }

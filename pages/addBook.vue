@@ -1,4 +1,3 @@
-
 <template>
   <div class="d-flex justify-content-center mt-3">
     <div class="card addbook-card border-2" style="">

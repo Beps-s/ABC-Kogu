@@ -5,17 +5,17 @@
         </a>
         <div class="dropdown-menu" :class="{ show: isOpen }" ref="dropdownMenu">
             <NuxtLink class="dropdown-item" @click="closeDropdown">
-                Minu Andmed
+                Minu andmed
             </NuxtLink>
             <NuxtLink class="dropdown-item" to="/borrowedBooks" @click="closeDropdown">
-                Minu Laenutused
+                Minu laenutused
             </NuxtLink>
             <NuxtLink v-if="isAdmin" class="dropdown-item" to="/addBook" @click="closeDropdown">
-                Lisa Raamat
+                Lisa raamat
             </NuxtLink>
             <hr class="dropdown-divider" />
             <a class="dropdown-item" @click="logout">
-                Logi Välja
+                Logi välja
             </a>
         </div>
     </div>
@@ -24,7 +24,6 @@
 <script setup>
 const client = useSupabaseAuthClient()
 const isAdmin = ref(false)
-
 
 const { data: { user } } = await client.auth.getUser()
 let metadata = user.user_metadata

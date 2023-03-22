@@ -31,7 +31,7 @@
               <input type="submit" value="Loo konto" data-bs-dismiss="modal">
             </div>
             <div class="signup-link">
-              Kasutaja juba olemas? <a>Logi sisse</a>
+              Kasutaja juba olemas? <a @click="$emit('changeModal')">Logi sisse</a>
             </div>
           </form>
         </div>
@@ -41,6 +41,7 @@
 </template>
 
 <script setup>
+const emit = defineEmits(['closeModal'])
 const client = useSupabaseAuthClient()
 const { auth } = useSupabaseAuthClient()
 
@@ -54,26 +55,36 @@ const message = ref('')
 async function register() {
   if (paroolReg.value !== paroolUuestiReg.value) {
     message.value = 'Paroolid ei kattu'
-  } else {
-    const { user, error } = await client.auth.signUp({
-      email: emailReg.value,
-      password: paroolReg.value,
-      options: {
-        data: {
-          eesnimi: eesnimiReg.value,
-          perenimi: perenimiReg.value,
-        },
+    return
+  }
+  if (paroolReg.value.length < 8) {
+    message.value = 'Parool peab olema vähemalt 8 tähemärki pikk'
+    return
+  }
+  const { user, error } = await client.auth.signUp({
+    email: emailReg.value,
+    password: paroolReg.value,
+    options: {
+      data: {
+        eesnimi: eesnimiReg.value,
+        perenimi: perenimiReg.value,
       },
-    });
-    if (error) {
-      message.value = error.message
-      return null;
-    } else {
-      message.value = 'Konto loodud'
-      return user;
-    }
+    },
+  });
+  if (error) {
+    message.value = error.message
+    return;
+  } else {
+    closeClick()
+    alert("Kasutaja loodud!")
+    return user;
   }
 }
+
+const closeClick = () => {
+  emit('closeModal')
+}
+
 </script>
 
 <style scoped>

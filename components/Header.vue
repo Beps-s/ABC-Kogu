@@ -17,10 +17,10 @@
           @input="$emit('search', search)">
       </form>
       <div class="d-flex">
-        <div v-if="!userIn" class="menu-item mr-4">
+        <div v-if="!user" class="menu-item mr-4">
           <a @click="showRegisterModal = true"><img src="../assets/images/UserCircle.png">Registreeri</a>
         </div>
-        <div v-if="!userIn" class="menu-item">
+        <div v-if="!user" class="menu-item">
           <a @click="showLoginModal = true"><img src="../assets/images/UserCircle.png">Logi sisse</a>
         </div>
         <div v-else class="menu-item mr-4">
@@ -30,12 +30,12 @@
       </div>
     </div>
   </nav>
-  <loginModal v-show="showLoginModal" @close-modal="onCloseModal" />
-  <registerModal v-show="showRegisterModal" @close-modal="showRegisterModal = false" />
+  <loginModal v-show="showLoginModal" @close-modal="onCloseModal" @change-modal="showLoginModal = !showLoginModal, showRegisterModal = !showRegisterModal"/>
+  <registerModal v-show="showRegisterModal" @close-modal="showRegisterModal = false" @change-modal="showRegisterModal = !showRegisterModal, showLoginModal = !showLoginModal" />
 </template>
   
 <script setup>
-const userIn = useSupabaseUser()
+const user = useSupabaseUser()
 const search = useState('search')
 
 </script>

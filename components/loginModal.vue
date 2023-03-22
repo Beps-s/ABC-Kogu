@@ -22,7 +22,7 @@
               <input type="submit" value="Logi sisse" data-bs-dismiss="modal">
             </div>
             <div class="signup-link">
-              Pole kasutajat? <a>Registreeri
+              Pole kasutajat? <a @click="$emit('changeModal')">Registreeri
                 siin</a>
             </div>
           </form>
@@ -33,30 +33,39 @@
 </template>
 
 <script setup>
+const emit = defineEmits(['closeModal'])
 const client = useSupabaseAuthClient()
 
 const emailLogin = ref('')
 const paroolLogin = ref('')
 const message = ref('')
 
-async function login() {
+const login = async ({ email, parool }) => {
   const { user, error } = await client.auth.signInWithPassword({
     email: emailLogin.value,
-    password: paroolLogin.value,
-  });
+    password: paroolLogin.value
+  })
   if (error) {
-    message.value = error.message
-    return null;
+    if (error.message === "Invalid login credentials") {
+      message.value = "Vale e-mail või parool"
+    } else {
+      message.value = error.message
+    }
+    return
   } else {
+    closeClick()
     return user;
   }
+}
+
+const closeClick = () => {
+  emit('closeModal')
 }
 
 </script>
 
 
 <style scoped>
-
 * {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;

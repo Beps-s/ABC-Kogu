@@ -1,31 +1,31 @@
 <template>
-    <div class="container my-5">
-      <div class="row">
-        <div class="col-md-5">
-          <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt"
-            class="img-fluid" alt="Book cover">
+  <div class="container my-5 position-relative">
+    <div class="row">
+      <div class="col-md-5">
+        <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt"
+          class="img-fluid" alt="Book cover">
+      </div>
+      <div class="col-md-7 d-flex flex-column position-relative">
+        <h1 class="mb-4">{{ books[0].Pealkiri }}</h1>
+        <NuxtLink :to="`/readingPage/${books[0].Raamatu_ID}`"><button class="button position-absolute top-0 end-0">Loe</button></NuxtLink>
+        <h4 class="mb-3">{{ books[0].Autor }}</h4>
+        <p class="mb-4">{{ books[0].Kirjeldus }}</p>
+        <div class="position-absolute bottom-0 start-0">
+          <button class="button" @click="returnBook">Tagasta</button>
         </div>
-        <div class="col-md-7 d-flex flex-column">
-          <h1 class="mb-4">{{ books[0].Pealkiri }}</h1>
-        <NuxtLink to="readingPage"><button class="button">Loe</button></NuxtLink>
-          <h4 class="mb-3">{{ books[0].Autor }}</h4>
-          <p class="mb-4">{{ books[0].Kirjeldus }}</p>
-          <div class="mt-auto">
-            <div class="d-inline-block">
-              <button class="button" @click="returnBook">Tagasta</button>
-              <button class="button" @click="extendReturnDate">Pikenda tähtaega</button>
-            </div>
-          </div>
+        <div class="position-absolute bottom-0 end-0">
+          <button class="button" @click="extendReturnDate">Pikenda tähtaega</button>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <script setup>
 const client = useSupabaseClient()
 const { id } = useRoute().params
-const {auth} = useSupabaseAuthClient()
-const {data: {user}} = await client.auth.getUser()
+const { auth } = useSupabaseAuthClient()
+const { data: { user } } = await client.auth.getUser()
 
 let { data: books, error } = await client
   .from('RAAMATUD')
@@ -33,31 +33,33 @@ let { data: books, error } = await client
   .eq('Raamatu_ID', id)
 
 async function returnBook() {
-  const {data, error} = await client
-      .from('LAENUTUSED')
-      .delete()
-      .eq('Raamatu_ID', id)
+  const { data, error } = await client
+    .from('LAENUTUSED')
+    .delete()
+    .eq('Raamatu_ID', id)
   if (error) {
     alert(error)
   } else {
+    alert("Raamat tagastatud!")
     navigateTo('/borrowedBooks')
   }
 }
 async function extendReturnDate() {
-  const {data, error} = await client
-      .from('LAENUTUSED')
-      .delete()
-      .eq('Raamatu_ID', id)
+  const { data, error } = await client
+    .from('LAENUTUSED')
+    .delete()
+    .eq('Raamatu_ID', id)
   if (error) {
     alert(error)
   } else {
-    const {data, error} = await client
-        .from('LAENUTUSED')
-        .insert({kasutaja_id: user.id, Raamatu_ID: id});
+    const { data, error } = await client
+      .from('LAENUTUSED')
+      .insert({ kasutaja_id: user.id, Raamatu_ID: id });
     if (error) {
       console.log(error)
     } else {
       alert("Raamatu tähtaeg pikendatud!")
+      navigateTo('/borrowedBooks')
     }
   }
 }
