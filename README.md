@@ -1,42 +1,54 @@
-# Nuxt 3 Minimal Starter
+<h1 align="center">✨ABC-Kogu✨</h1>
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## 📜 | About
 
-## Setup
+This project is made as the final assignment in project management. The task for the assignment was to build a library website for borrowing e-books. The front-end framework used is Nuxt 3 and database/back-end is Supabase.
 
-Make sure to install the dependencies:
+## 🚧 Prerequisites:
 
-```bash
-# yarn
-yarn install
+- [Node.js 16.10.0 or newer](https://nodejs.org/en/download/)
 
-# npm
+### Recommended IDE Setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+
+## 📝 Project Setup
+
+```sh
 npm install
-
-# pnpm
-pnpm install
 ```
 
-## Development Server
+### Compile and Hot-Reload for Development
 
 Start the development server on http://localhost:3000
 
-```bash
+```sh
 npm run dev
 ```
 
-## Production
+### Compile and Minify for Production
 
-Build the application for production:
-
-```bash
+```sh
 npm run build
 ```
 
-Locally preview production build:
+### Locally preview production build:
 
-```bash
+```sh
 npm run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 📸 | Screenshots
+
+<div><img src="/public/Screenshot_1.png"></div>
+<div><img src="/public/Screenshot_2.png"></div>
+
+## ✨ | Authors
+
+* **Chris Erman** - [UwUBeebi](https://github.com/UwUBeebi)
+
+* **Arnold Grosberg** - [ArnoldITA20](https://github.com/ArnoldITA20)
+
+* **Steven Mirontšuk** - [KreiZi0](https://github.com/KreiZi0)
+
+* **Voldemar Viilu** - [Voldemarvel](https://github.com/Voldemarvel)
