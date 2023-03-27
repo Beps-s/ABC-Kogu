@@ -45,7 +45,7 @@ npm run preview
 
 ## ✨ | Authors
 
-* **Chris Erman** - [UwUBeebi](https://github.com/UwUBeebi)
+* **Chris Erman** - [Beps-s](https://github.com/Beps-s)
 
 * **Arnold Grosberg** - [ArnoldITA20](https://github.com/ArnoldITA20)
 
