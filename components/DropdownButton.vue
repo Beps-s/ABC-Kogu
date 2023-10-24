@@ -10,7 +10,7 @@
             <NuxtLink class="dropdown-item" to="/borrowedBooks" @click="closeDropdown">
                 Minu laenutused
             </NuxtLink>
-            <NuxtLink v-if="isAdmin" class="dropdown-item" to="/addBook" @click="closeDropdown">
+            <NuxtLink class="dropdown-item" to="/addBook" @click="closeDropdown">
                 Lisa raamat
             </NuxtLink>
             <hr class="dropdown-divider" />

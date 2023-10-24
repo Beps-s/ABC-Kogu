@@ -2,7 +2,7 @@
   <div class="container my-5 position-relative">
     <div class="row">
       <div class="col-md-5">
-        <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt"
+        <img :src="'https://tlinhoehmoowgezzwnoo.supabase.co/storage/v1/object/public/ABC-Kogu/' + books[0].Pilt"
           class="img-fluid" alt="Book cover">
       </div>
       <div class="col-md-7 d-flex flex-column position-relative">

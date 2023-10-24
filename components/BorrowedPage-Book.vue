@@ -1,7 +1,7 @@
 <template>
   <div class="card">
       <NuxtLink :to="`/borrowedBooks/${props.books.books.Raamatu_ID}`">
-          <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + props.books.books.Pilt"
+          <img :src="'https://tlinhoehmoowgezzwnoo.supabase.co/storage/v1/object/public/ABC-Kogu/' + props.books.books.Pilt"
               class="card-img-top" alt="Book cover">
           <div class="card-body">
               <h5 class="card-title">{{ props.books.books.Pealkiri }}</h5>

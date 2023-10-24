@@ -44,10 +44,10 @@ async function getBooks() {
     console.error(error)
     return
   }
-  if (data && data.length > 0) {
+    if (data && data.length > 0) {
     books.value = data[0];
     if (books.value) {
-      img_src.value = "https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/" + books.value.Pilt
+      img_src.value = "https://tlinhoehmoowgezzwnoo.supabase.co/storage/v1/object/public/ABC-Kogu/" + books.value.Pilt
     }
   } else {
     books.value = null;

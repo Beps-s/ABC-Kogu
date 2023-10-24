@@ -43,6 +43,8 @@ npm run preview
 <div><img src="/public/Screenshot_1.png"></div>
 <div><img src="/public/Screenshot_2.png"></div>
 
+[Figma](https://www.figma.com/file/GER8n0XFgJMvrAnAQIfByX/E-Raamatukogu-%22ABC-Kogu%22?type=design&node-id=0%3A1&mode=design&t=Ixa6mvNallh5La47-1)
+
 ## ✨ | Authors
 
 * **Chris Erman** - [Beps-s](https://github.com/Beps-s)

@@ -3,7 +3,7 @@
         <div id="book" style="width:22%; text-align:center;">
             <div class="col-md-12">
                 <div>
-                    <img :src="'https://zbtfeoishdvbsciusmsn.supabase.co/storage/v1/object/public/images/' + books[0].Pilt"
+                    <img :src="'https://tlinhoehmoowgezzwnoo.supabase.co/storage/v1/object/public/ABC-Kogu/' + books[0].Pilt"
                         style="width: 200px" alt="Book cover">
                 </div>
                 <h3 class="mb-4">{{ books[0].Pealkiri }}</h3>
